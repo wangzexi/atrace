@@ -25,7 +25,7 @@ atrace_pid=$!
 bun scripts/import-demo.mjs
 ```
 
-打开 `http://127.0.0.1:8183/login`，用主人密码登录。在「设置 → 人物」创建一个人物，把样例账号 `demo:user:reader` 关联给它，并把该人物放在首位。回到首页即可看到样例。网页终端在 `/terminal`。如需单独运行 CLI，可以执行 `bun client/cli/atrace --help`。
+打开 `http://127.0.0.1:8183/login`，用主人密码登录。在「设置 → 人物」创建一个人物，把样例账号 `demo:user:reader` 关联给它，并把该人物放在首位。回到首页即可看到样例。程序读取档案的说明位于时间线 Markdown 尾部。如需单独运行 CLI，可以执行 `bun client/cli/atrace --help`。
 
 备份时保留档案数据库和媒体目录。停止服务用 `kill "$atrace_pid"`。
 
@@ -42,3 +42,5 @@ docker build -f server/Dockerfile -t atrace:local .
 镜像在容器内监听 `8183`。挂载可写的 `/data` 以保存档案，初始化时把 `set-password` 传给容器，运行时设置 `ATRACE_COLLECT_TOKEN`。
 
 在 Apple Silicon Mac 上运行 `bash client/app/build.sh` 可构建桌面 App。自建发行方可以通过 `ATRACE_UPDATE_URL` 和 `ATRACE_UPDATE_PUBLIC_KEY` 配置自己的更新源。
+
+GitHub Actions 在 `main` 的检查通过后发布 Linux amd64 镜像。每次运行的 `server-image` 工件记录镜像摘要，部署时可以用它锁定版本。

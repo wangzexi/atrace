@@ -17,9 +17,9 @@ atrace 把散落在不同平台的数字足迹汇成一份由自己掌握的档�
 
 atrace 解决的是个人信息散落在各平台、难以长期保存和查找的问题。它不做另一个社交平台，不提供新的点赞、回帖、推荐或社区；AI 是档案的使用者。
 
-## 档案终端
+## 读取档案
 
-打开站点的 `/terminal` 或运行 `atrace sh`。主人从 `/atrace` 按人物和月份进入条目目录。访客按月份浏览默认人物的公开记录。用 `grep` 找正文和文本附件，用 `cat` 读 `entry.md` 或 `entry.json`，用 `atrace download` 保存附件。站点的 `/terminal.md` 是目录说明，`atrace sh --help` 列出可用命令。
+运行 `atrace sh` 浏览档案目录。主人从 `/atrace` 按人物和月份进入条目目录，访客按月份浏览默认人物的公开记录。用 `grep` 找正文和文本附件，用 `cat` 读 `entry.md` 或 `entry.json`，用 `atrace download` 保存附件。站点时间线 Markdown 的尾部介绍只读档案 API，`atrace sh --help` 列出 CLI 可用命令。
 
 Blog 成稿采集后，可以用 `atrace blog-drafts <本地 Blog 目录>` 同步各篇文章 `refs/drafts/` 下的 Markdown 和纯文本。同步的草稿归档在对应文章的附件目录，仅主人可见。
 

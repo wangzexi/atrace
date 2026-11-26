@@ -24,6 +24,7 @@ const archiveRoot = "/atrace"
 type archive struct {
 	ctx        context.Context
 	renderer   *Renderer
+	base       string
 	owner      bool
 	entries    map[string]string
 	dirs       map[string][]string
@@ -250,6 +251,9 @@ func (a *archive) read(name string) (io.ReadCloser, bool, error) {
 		return io.NopCloser(strings.NewReader(value)), true, nil
 	}
 	if name == archiveRoot+"/README.md" {
+		if a.owner {
+			return text(ownerArchiveReadme)
+		}
 		return text(archiveReadme)
 	}
 	post, suffix, err := a.locate(name)
@@ -263,7 +267,7 @@ func (a *archive) read(name string) (io.ReadCloser, bool, error) {
 			ctx = auth.Visitor(ctx)
 		}
 		if post.entry == nil {
-			rendered, err := a.renderer.entryOf(ctx, post.item, map[string]string{}, false)
+			rendered, err := a.renderer.entryOf(ctx, post.item, map[string]string{}, true)
 			if err != nil {
 				return nil, false, err
 			}
@@ -272,7 +276,7 @@ func (a *archive) read(name string) (io.ReadCloser, bool, error) {
 		}
 		entry := *post.entry
 		if suffix == "entry.md" {
-			return text(entryMarkdown(entry, "", true))
+			return text(entryMarkdown(visibleTo(a.owner, entry), a.base, true))
 		}
 		value := any(entry)
 		if a.owner {

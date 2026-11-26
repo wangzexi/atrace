@@ -25,8 +25,8 @@ import (
 //go:embed archive-help.md
 var archiveReadme string
 
-//go:embed terminal.html
-var terminalPage string
+//go:embed archive-help-owner.md
+var ownerArchiveReadme string
 
 const shellOutputLimit = 256 << 10
 
@@ -216,7 +216,7 @@ func (a *archive) run(cwd *string, args []string, input *string) (string, error)
 	}
 	switch args[0] {
 	case "help":
-		return "pwd · cd · ls · find [-name 模式] · cat · grep [-rinl] [-m 行数] · head [-n 行数] · wc -l\n连接符 | && ;\n", nil
+		return "pwd · cd · ls [-la] [路径] · find [路径] [-type f] [-name 模式] · cat 文件... · grep [-rinl] [-m 行数] · head [-n 行数|-行数] [文件] · wc -l [文件...]\n连接符 | && ;\n", nil
 	case "pwd":
 		return *cwd + "\n", nil
 	case "cd":
@@ -233,7 +233,20 @@ func (a *archive) run(cwd *string, args []string, input *string) (string, error)
 		}
 		*cwd = name
 	case "ls":
-		name, err := target(args[1:])
+		fields := args[1:]
+		for len(fields) > 0 && strings.HasPrefix(fields[0], "-") {
+			flag := strings.TrimPrefix(fields[0], "-")
+			if flag == "" {
+				break
+			}
+			for _, option := range flag {
+				if option != 'a' && option != 'l' {
+					return "", fmt.Errorf("ls 不支持选项 -%c", option)
+				}
+			}
+			fields = fields[1:]
+		}
+		name, err := target(fields)
 		if err != nil {
 			return "", err
 		}
@@ -257,42 +270,69 @@ func (a *archive) run(cwd *string, args []string, input *string) (string, error)
 			return "", errors.New("用法：cat 文件...")
 		}
 		for _, arg := range args[1:] {
-			name, err := archivePath(*cwd, arg)
+			names, err := a.expand(*cwd, arg)
 			if err != nil {
 				return out.String(), err
 			}
-			body, text, err := a.read(name)
-			if err != nil {
-				return out.String(), err
-			}
-			if !text {
+			for _, name := range names {
+				body, text, err := a.read(name)
+				if err != nil {
+					return out.String(), err
+				}
+				if !text {
+					body.Close()
+					return out.String(), errors.New("媒体文件可通过文件下载接口读取")
+				}
+				data, err := io.ReadAll(io.LimitReader(body, shellOutputLimit+1))
 				body.Close()
-				return out.String(), errors.New("媒体文件可通过文件下载接口读取")
-			}
-			data, err := io.ReadAll(io.LimitReader(body, shellOutputLimit+1))
-			body.Close()
-			if err != nil {
-				return out.String(), err
-			}
-			if err := write(string(data)); err != nil {
-				return out.String(), err
+				if err != nil {
+					return out.String(), err
+				}
+				if err := write(string(data)); err != nil {
+					return out.String(), err
+				}
 			}
 		}
 	case "find":
 		fields := args[1:]
 		var pattern string
-		if len(fields) >= 2 && fields[len(fields)-2] == "-name" {
-			pattern = fields[len(fields)-1]
-			fields = fields[:len(fields)-2]
-			if _, err := path.Match(pattern, ""); err != nil {
-				return "", err
+		fileOnly := false
+		var roots []string
+		for i := 0; i < len(fields); i++ {
+			switch fields[i] {
+			case "-name":
+				if pattern != "" || i+1 >= len(fields) {
+					return "", errors.New("用法：find [路径] [-type f] [-name 模式]")
+				}
+				i++
+				pattern = fields[i]
+				if _, err := path.Match(pattern, ""); err != nil {
+					return "", err
+				}
+			case "-type":
+				if fileOnly || i+1 >= len(fields) || fields[i+1] != "f" {
+					return "", errors.New("find 仅支持 -type f")
+				}
+				i++
+				fileOnly = true
+			default:
+				if strings.HasPrefix(fields[i], "-") {
+					return "", fmt.Errorf("find 不支持选项 %s", fields[i])
+				}
+				roots = append(roots, fields[i])
 			}
 		}
-		name, err := target(fields)
+		if len(roots) > 1 {
+			return "", errors.New("find 只支持一个起始路径")
+		}
+		name, err := target(roots)
 		if err != nil {
 			return "", err
 		}
-		err = a.walk(name, func(name string, _ bool) error {
+		err = a.walk(name, func(name string, isDir bool) error {
+			if fileOnly && isDir {
+				return nil
+			}
 			if pattern != "" {
 				if match, _ := path.Match(pattern, path.Base(name)); !match {
 					return nil
@@ -304,11 +344,38 @@ func (a *archive) run(cwd *string, args []string, input *string) (string, error)
 	case "grep":
 		return a.grep(*cwd, args[1:], input, write, &out)
 	case "head":
-		lines, ok := headLines(args)
-		if !ok || input == nil {
-			return "", errors.New("用法：命令 | head [-n 行数]")
+		lines, filename, ok := headArgs(args)
+		if !ok {
+			return "", errors.New("用法：命令 | head [-n 行数]，或 head [-n 行数] 文件")
 		}
-		value := *input
+		var value string
+		if filename != "" {
+			name, err := archivePath(*cwd, filename)
+			if err != nil {
+				return "", err
+			}
+			body, text, err := a.read(name)
+			if err != nil {
+				return "", err
+			}
+			if !text {
+				body.Close()
+				return "", errors.New("媒体文件不可作为文本读取")
+			}
+			data, err := io.ReadAll(io.LimitReader(body, shellOutputLimit+1))
+			body.Close()
+			if err != nil {
+				return "", err
+			}
+			if len(data) > shellOutputLimit {
+				return "", errShellOutput
+			}
+			value = string(data)
+		} else if input != nil {
+			value = *input
+		} else {
+			return "", errors.New("用法：命令 | head [-n 行数]，或 head [-n 行数] 文件")
+		}
 		for i := 0; i < len(value); i++ {
 			if value[i] == '\n' {
 				lines--
@@ -319,10 +386,52 @@ func (a *archive) run(cwd *string, args []string, input *string) (string, error)
 		}
 		return value, nil
 	case "wc":
-		if len(args) != 2 || args[1] != "-l" || input == nil {
-			return "", errors.New("用法：命令 | wc -l")
+		if len(args) < 2 || args[1] != "-l" {
+			return "", errors.New("用法：命令 | wc -l，或 wc -l 文件...")
 		}
-		return strconv.Itoa(strings.Count(*input, "\n")) + "\n", nil
+		if len(args) == 2 {
+			if input == nil {
+				return "", errors.New("用法：命令 | wc -l，或 wc -l 文件...")
+			}
+			return strconv.Itoa(strings.Count(*input, "\n")) + "\n", nil
+		}
+		var total, files int
+		for _, arg := range args[2:] {
+			names, err := a.expand(*cwd, arg)
+			if err != nil {
+				return out.String(), err
+			}
+			for _, name := range names {
+				files++
+				body, text, err := a.read(name)
+				if err != nil {
+					return out.String(), err
+				}
+				if !text {
+					body.Close()
+					return out.String(), errors.New("媒体文件不可作为文本读取")
+				}
+				data, err := io.ReadAll(io.LimitReader(body, shellOutputLimit+1))
+				body.Close()
+				if err != nil {
+					return out.String(), err
+				}
+				if len(data) > shellOutputLimit {
+					return out.String(), errShellOutput
+				}
+				count := strings.Count(string(data), "\n")
+				total += count
+				if err := write(strconv.Itoa(count) + " " + name + "\n"); err != nil {
+					return out.String(), err
+				}
+			}
+		}
+		if files > 1 {
+			if err := write(strconv.Itoa(total) + " total\n"); err != nil {
+				return out.String(), err
+			}
+		}
+		return out.String(), nil
 	default:
 		return "", fmt.Errorf("未知命令 %q，输入 help 查看可用命令", args[0])
 	}
@@ -330,17 +439,85 @@ func (a *archive) run(cwd *string, args []string, input *string) (string, error)
 }
 
 func headLines(args []string) (int, bool) {
-	if args[0] != "head" {
-		return 0, false
+	n, filename, ok := headArgs(args)
+	return n, ok && filename == ""
+}
+
+func headArgs(args []string) (int, string, bool) {
+	if len(args) == 0 || args[0] != "head" {
+		return 0, "", false
 	}
-	if len(args) == 1 {
-		return 10, true
+	lines := 10
+	fields := args[1:]
+	if len(fields) > 0 && (fields[0] == "-n" || (strings.HasPrefix(fields[0], "-") && len(fields[0]) > 1)) {
+		if fields[0] != "-n" {
+			parsed, err := strconv.Atoi(fields[0][1:])
+			if err != nil || parsed < 1 {
+				return 0, "", false
+			}
+			lines = parsed
+			fields = fields[1:]
+		} else {
+			if len(fields) < 2 {
+				return 0, "", false
+			}
+			parsed, err := strconv.Atoi(fields[1])
+			if err != nil || parsed < 1 {
+				return 0, "", false
+			}
+			lines = parsed
+			fields = fields[2:]
+		}
 	}
-	if len(args) == 3 && args[1] == "-n" {
-		n, err := strconv.Atoi(args[2])
-		return n, err == nil && n > 0
+	if len(fields) > 1 || (len(fields) == 1 && strings.HasPrefix(fields[0], "-")) {
+		return 0, "", false
 	}
-	return 0, false
+	if len(fields) == 1 {
+		return lines, fields[0], true
+	}
+	return lines, "", true
+}
+
+// expand expands wildcards one archive directory at a time; it never consults the host filesystem.
+func (a *archive) expand(cwd, pattern string) ([]string, error) {
+	name, err := archivePath(cwd, pattern)
+	if err != nil {
+		return nil, err
+	}
+	if !strings.ContainsAny(name, "*?[") {
+		return []string{name}, nil
+	}
+	relative := strings.TrimPrefix(strings.TrimPrefix(name, archiveRoot), "/")
+	parts := strings.Split(relative, "/")
+	for _, part := range parts {
+		if _, err := path.Match(part, ""); err != nil {
+			return nil, err
+		}
+	}
+	paths := []string{archiveRoot}
+	for _, part := range parts {
+		var next []string
+		for _, parent := range paths {
+			children, err := a.list(parent)
+			if err != nil {
+				continue
+			}
+			for _, child := range children {
+				match, err := path.Match(part, child)
+				if err != nil {
+					return nil, err
+				}
+				if match {
+					next = append(next, path.Join(parent, child))
+				}
+			}
+		}
+		paths = next
+		if len(paths) == 0 {
+			return nil, fmt.Errorf("no matches for %s", pattern)
+		}
+	}
+	return paths, nil
 }
 
 var errMatchLimit = errors.New("match limit reached")
@@ -499,7 +676,7 @@ func (renderer *Renderer) shell(w http.ResponseWriter, r *http.Request) {
 	}
 	ctx, cancel := context.WithTimeout(r.Context(), 4*time.Second)
 	defer cancel()
-	a := archive{ctx: ctx, renderer: renderer, owner: auth.Owner(ctx)}
+	a := archive{ctx: ctx, renderer: renderer, base: baseOf(r), owner: auth.Owner(ctx)}
 	if request.CWD != "" && cwd != archiveRoot {
 		if _, err := a.list(cwd); err != nil {
 			cwd = archiveRoot
@@ -515,7 +692,7 @@ func (renderer *Renderer) shell(w http.ResponseWriter, r *http.Request) {
 func (renderer *Renderer) archiveDownload(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 10*time.Second)
 	defer cancel()
-	a := archive{ctx: ctx, renderer: renderer, owner: auth.Owner(ctx)}
+	a := archive{ctx: ctx, renderer: renderer, base: baseOf(r), owner: auth.Owner(ctx)}
 	name, err := archivePath(archiveRoot, r.URL.Query().Get("path"))
 	if err != nil {
 		http.NotFound(w, r)
@@ -524,7 +701,7 @@ func (renderer *Renderer) archiveDownload(w http.ResponseWriter, r *http.Request
 	reader, text, err := a.read(name)
 	if errors.Is(err, fs.ErrNotExist) && a.owner {
 		// A shared visitor URL keeps the same view when opened by the owner.
-		visitor := archive{ctx: auth.Visitor(ctx), renderer: renderer}
+		visitor := archive{ctx: auth.Visitor(ctx), renderer: renderer, base: baseOf(r)}
 		reader, text, err = visitor.read(name)
 	}
 	if err != nil {

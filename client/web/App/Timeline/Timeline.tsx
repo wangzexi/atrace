@@ -1,4 +1,4 @@
-import { ArrowUpRight, Terminal, Settings as SettingsIcon } from 'lucide-react'
+import { ArrowUpRight, Settings as SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { LOAD_FAILED, personOfAccount, readEntry, wantPost, type Entry as EntryData } from '../api'
 import { subscribe } from '../events'
@@ -206,9 +206,6 @@ export default function Timeline({
             Markdown <ArrowUpRight size={13} aria-hidden="true" />
           </a>
         )}
-        <a className="filter-button" aria-label="档案终端" data-tip="档案终端" href="/terminal">
-          <Terminal aria-hidden="true" strokeWidth={2} />
-        </a>
         {owner && (
           <a
             className="filter-button"

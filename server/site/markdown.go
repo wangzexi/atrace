@@ -8,6 +8,7 @@ package site
 import (
 	"errors"
 	"fmt"
+	"math"
 	"net/http"
 	"net/url"
 	"slices"
@@ -36,34 +37,104 @@ var kindLabels = map[string]string{"Create": "原创", "Reply": "回复", "Annou
 // alternate says, in the headers of a page, where its Markdown is; the answer depends on what the request accepts.
 func alternate(w http.ResponseWriter, href string) {
 	w.Header().Add("Link", "<"+href+`>; rel="alternate"; type="text/markdown"`)
-	w.Header().Add("Vary", "Accept")
+	addVaryAccept(w.Header())
 }
 
-// prefersMarkdown is whether the request asks for Markdown before HTML. A program that reads the page says so in
-// Accept (text/markdown, with or without text/html after it); a browser asks for text/html and does not.
-func prefersMarkdown(r *http.Request) bool {
-	quality := map[string]float64{}
-	position := map[string]int{}
-	for i, part := range strings.Split(r.Header.Get("Accept"), ",") {
-		fields := strings.Split(strings.TrimSpace(part), ";")
-		media := strings.ToLower(strings.TrimSpace(fields[0]))
-		q := 1.0
-		for _, field := range fields[1:] {
-			if value, ok := strings.CutPrefix(strings.TrimSpace(field), "q="); ok {
-				if parsed, err := strconv.ParseFloat(value, 64); err == nil {
-					q = parsed
+// pageRepresentation follows Accept quality and specificity. An explicit Markdown preference opts into
+// Markdown when qualities tie; a generic wildcard keeps the browser page as the default.
+func pageRepresentation(r *http.Request) (markdown, acceptable bool) {
+	values := r.Header.Values("Accept")
+	if len(values) == 0 || strings.TrimSpace(strings.Join(values, ",")) == "" {
+		return false, true
+	}
+	type mediaRange struct {
+		media       string
+		quality     float64
+		specificity int
+		position    int
+	}
+	var ranges []mediaRange
+	position := 0
+	for _, header := range values {
+		for _, part := range strings.Split(header, ",") {
+			fields := strings.Split(part, ";")
+			media := strings.ToLower(strings.TrimSpace(fields[0]))
+			if media != "text/markdown" && media != "text/html" && media != "text/*" && media != "*/*" {
+				position++
+				continue
+			}
+			quality := 1.0
+			valid := true
+			for _, field := range fields[1:] {
+				name, value, ok := strings.Cut(strings.TrimSpace(field), "=")
+				if !ok || !strings.EqualFold(strings.TrimSpace(name), "q") {
+					continue
 				}
+				parsed, err := strconv.ParseFloat(strings.TrimSpace(value), 64)
+				if err != nil || math.IsNaN(parsed) || math.IsInf(parsed, 0) || parsed < 0 || parsed > 1 {
+					valid = false
+					break
+				}
+				quality = parsed
+			}
+			if valid {
+				specificity := 0
+				if media == "text/*" {
+					specificity = 1
+				} else if media != "*/*" {
+					specificity = 2
+				}
+				ranges = append(ranges, mediaRange{media, quality, specificity, position})
+			}
+			position++
+		}
+	}
+	qualityFor := func(media string) (float64, int, int, bool) {
+		best := mediaRange{quality: -1}
+		for _, candidate := range ranges {
+			matches := candidate.media == media || candidate.media == "text/*" || candidate.media == "*/*"
+			if !matches {
+				continue
+			}
+			if candidate.specificity > best.specificity || (candidate.specificity == best.specificity && (best.quality < 0 || candidate.position < best.position)) {
+				best = candidate
 			}
 		}
-		if _, seen := quality[media]; !seen {
-			quality[media], position[media] = q, i
+		return best.quality, best.specificity, best.position, best.quality >= 0
+	}
+	mdQ, mdSpecificity, mdPosition, mdFound := qualityFor("text/markdown")
+	htmlQ, htmlSpecificity, htmlPosition, htmlFound := qualityFor("text/html")
+	mdOK, htmlOK := mdFound && mdQ > 0, htmlFound && htmlQ > 0
+	if !mdOK && !htmlOK {
+		return false, false
+	}
+	if !htmlOK {
+		return true, true
+	}
+	if !mdOK {
+		return false, true
+	}
+	if mdQ != htmlQ {
+		return mdQ > htmlQ, true
+	}
+	if mdSpecificity != htmlSpecificity {
+		return mdSpecificity > htmlSpecificity, true
+	}
+	if mdSpecificity == 2 {
+		return true, true // both formats were named; the explicit Markdown option opts in on a tie.
+	}
+	return mdPosition < htmlPosition && mdSpecificity > 0, true
+}
+
+func addVaryAccept(header http.Header) {
+	for _, value := range header.Values("Vary") {
+		for _, name := range strings.Split(value, ",") {
+			if strings.EqualFold(strings.TrimSpace(name), "Accept") || strings.TrimSpace(name) == "*" {
+				return
+			}
 		}
 	}
-	markdown, html := quality["text/markdown"], quality["text/html"]
-	if markdown <= 0 {
-		return false
-	}
-	return markdown > html || (markdown == html && position["text/markdown"] < position["text/html"])
+	header.Add("Vary", "Accept")
 }
 
 // baseOf is the address the request came to, for links that are followed from outside.
@@ -76,7 +147,7 @@ func baseOf(r *http.Request) string {
 }
 
 // timelineMarkdown serves the timeline as Markdown for visitors, newest first: GET /index.md?after=&limit=. It does not
-// filter. The archive terminal can search by text and read an entry.
+// filter. Its footer describes the read-only archive shell for programs that need to search or read an entry.
 func (renderer *Renderer) timelineMarkdown(w http.ResponseWriter, r *http.Request) {
 	page, limit, problem := timelineMarkdownParams(r.URL.Query())
 	if problem != "" {
@@ -92,9 +163,15 @@ func (renderer *Renderer) timelineMarkdown(w http.ResponseWriter, r *http.Reques
 		http.Error(w, "timeline unavailable", http.StatusInternalServerError)
 		return
 	}
+	title, err := renderer.feed.SiteTitle(r.Context(), renderer.owner+"'s Notes")
+	if err != nil {
+		http.Error(w, "could not read site settings", http.StatusInternalServerError)
+		return
+	}
 	base := baseOf(r)
 	var out strings.Builder
-	out.WriteString("# " + renderer.owner + " 的时间线\n\n")
+	out.WriteString("# " + title + "\n\n")
+	fmt.Fprintf(&out, "\x60\x60\x60sh\n# Use this read-only API to search and read entries.\ncurl -sS -X POST \"%s/api/shell\" -H 'Content-Type: application/json' -d '{\"command\":\"cat README.md\",\"cwd\":\"/atrace\"}'\n\x60\x60\x60\n\n", base)
 	for _, entry := range entries {
 		out.WriteString(entryMarkdown(entry, base, false))
 	}
@@ -107,7 +184,6 @@ func (renderer *Renderer) timelineMarkdown(w http.ResponseWriter, r *http.Reques
 	default:
 		out.WriteString("已到最后一页。\n")
 	}
-	fmt.Fprintf(&out, "\n[档案终端](%s/terminal)\n\n[目录说明](%s/terminal.md)\n", base, base)
 	writeMarkdown(w, r, out.String())
 }
 
@@ -172,8 +248,9 @@ func entryListParams(query url.Values) (page core.PageRange, limit int, text str
 
 // post serves one entry as Markdown: GET /<ref>.md.
 func (renderer *Renderer) postMarkdown(w http.ResponseWriter, r *http.Request, ref string) {
-	ctx := auth.Visitor(r.Context())
-	item, err := renderer.feed.TimelineItem(ctx, ref, true)
+	ctx := r.Context()
+	owner := auth.Owner(ctx)
+	item, err := renderer.feed.TimelineItem(ctx, ref, !owner)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -183,18 +260,12 @@ func (renderer *Renderer) postMarkdown(w http.ResponseWriter, r *http.Request, r
 		http.Error(w, "entry unavailable", http.StatusInternalServerError)
 		return
 	}
-	writeMarkdown(w, r, entryMarkdown(visibleTo(false, entry), baseOf(r), true))
+	writeMarkdown(w, r, entryMarkdown(visibleTo(owner, entry), baseOf(r), true))
 }
 
 func writeMarkdown(w http.ResponseWriter, r *http.Request, body string) {
-	// Browsers commonly download text/markdown instead of displaying it.
-	contentType := "text/plain; charset=utf-8"
-	if prefersMarkdown(r) {
-		contentType = markdownType
-	}
-	w.Header().Set("Content-Type", contentType)
+	w.Header().Set("Content-Type", markdownType)
 	w.Header().Set("Content-Disposition", "inline")
-	w.Header().Add("Vary", "Accept")
 	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	if r.Method != http.MethodHead {
@@ -308,7 +379,45 @@ func markdownPreview(text string, limit int) string {
 	if utf8.RuneCountInString(text) > limit {
 		text = string([]rune(text)[:limit]) + "…"
 	}
-	return strings.NewReplacer("\\", "\\\\", "`", "\\`", "*", "\\*", "_", "\\_", "[", "\\[", "]", "\\]", "<", "&lt;", ">", "&gt;", "#", "\\#").Replace(text)
+	text = strings.NewReplacer("\\", "\\\\", "`", "\\`", "*", "\\*", "_", "\\_", "<", "&lt;", ">", "&gt;", "#", "\\#").Replace(text)
+	return escapeMarkdownLinkPreview(text)
+}
+
+func escapeMarkdownLinkPreview(text string) string {
+	var out strings.Builder
+	for i := 0; i < len(text); {
+		bracket := i
+		if text[i] == '!' {
+			if i+1 == len(text) || text[i+1] != '[' {
+				out.WriteByte(text[i])
+				i++
+				continue
+			}
+			out.WriteByte('!')
+			bracket++
+		} else if text[i] != '[' {
+			out.WriteByte(text[i])
+			i++
+			continue
+		}
+		end := strings.IndexByte(text[bracket+1:], ']')
+		if end < 0 {
+			out.WriteByte(text[bracket])
+			i = bracket + 1
+			continue
+		}
+		end += bracket + 1
+		if end+1 < len(text) && text[end+1] == '(' {
+			out.WriteString("\\[")
+			out.WriteString(text[bracket+1 : end])
+			out.WriteString("\\](")
+			i = end + 2
+			continue
+		}
+		out.WriteByte(text[bracket])
+		i = bracket + 1
+	}
+	return out.String()
 }
 
 // titleOf is the title of the owner's own post, if it has one.

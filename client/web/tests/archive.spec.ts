@@ -268,32 +268,13 @@ test('访客忽略上次管理会话保存的未公开筛选', async ({ page }) 
     .toBe('all')
 })
 
-test('网页终端保留当前位置，登录后能查到草稿', async ({ page }) => {
-  const draft = 'archive-private-draft-marker'
-  const upload = await page.request.put('/admin/attachments', {
-    headers: { Authorization: 'Bearer test-password' },
-    data: { object: 'weibo:post:ci-public', files: [{ path: 'refs/drafts/草稿.md', content: draft }] },
-  })
-  expect(upload.status()).toBe(204)
+test('时间线 Markdown 开头给出读取档案示例', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('link', { name: '档案终端' }).click()
-  const input = page.getByRole('textbox', { name: '命令', exact: true })
-  const log = page.getByRole('log')
-  const run = async (command: string) => {
-    await input.fill(command)
-    await input.press('Enter')
-    await expect(page.getByRole('button', { name: '运行', exact: true })).toBeEnabled()
-  }
-  const path = '/atrace/测试主人/2026-11/' + publicRef
-  const visitorPath = '/atrace/2026-11/' + publicRef
-  await run('cd ' + visitorPath)
-  await run('pwd')
-  await expect(log).toContainText(visitorPath + '\n')
-  await run('grep -rl ' + draft + ' .')
-  await expect(log).not.toContainText('attachments/refs/drafts')
-  const login = await page.request.post('/login', { form: { password: 'test-' + 'password' } })
-  expect(login.ok()).toBeTruthy()
-  await run('cd ' + path)
-  await run('grep -rl ' + draft + ' .')
-  await expect(log).toContainText(path + '/attachments/refs/drafts/草稿.md')
+  await expect(page.getByRole('link', { name: '档案终端' })).toHaveCount(0)
+  const response = await page.request.get('/index.md')
+  expect(response.ok()).toBeTruthy()
+  const markdown = await response.text()
+  expect(markdown).toContain('/api/shell')
+  expect(markdown).toContain('cat README.md')
+  expect(markdown).not.toContain('/terminal')
 })

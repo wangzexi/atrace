@@ -94,13 +94,12 @@ func TestTimelineAsMarkdownIsTheVisitors(t *testing.T) {
 		}
 		return sb.String(), resp.Header.Get("Content-Type"), resp.StatusCode
 	}
-	// Every request here is the owner's (see markdownServer), and the Markdown is the visitor's all the same: what the
-	// owner keeps private is not in it.
+	// The timeline Markdown remains the public visitor feed, even for the owner.
 	body, contentType, status := get("/index.md")
-	if status != 200 || contentType != "text/plain; charset=utf-8" {
+	if status != 200 || contentType != "text/markdown; charset=utf-8" {
 		t.Fatalf("%d %q", status, contentType)
 	}
-	for _, want := range []string{"# Alice 的时间线", "/terminal", "/terminal.md", "2026-11-13 Alice 原创 A Title", "hello public world",
+	for _, want := range []string{"# Alice's Notes", "/api/shell", "cat README.md", "2026-11-13 Alice 原创 A Title", "hello public world",
 		"Chun the original thing", "] Alice 点赞", "已到最后一页。"} {
 		if !strings.Contains(body, want) {
 			t.Errorf("the timeline lacks %q:\n%s", want, body)
@@ -168,6 +167,13 @@ func TestPostAsMarkdownWithItsComments(t *testing.T) {
 			t.Errorf("the post lacks %q:\n%s", want, post)
 		}
 	}
+	var shell struct {
+		Stdout string `json:"stdout"`
+	}
+	statusCode, shellBody := do(t, "POST", url+"/api/shell", `{"command":"cat entry.md","cwd":"/atrace/Alice/2026-11/`+refs["weibo:post:1"]+`"}`)
+	if statusCode != 200 || json.Unmarshal([]byte(shellBody), &shell) != nil || shell.Stdout != post {
+		t.Errorf("archive entry Markdown differs from its public post: status=%d\n%s\n---\n%s", statusCode, shell.Stdout, post)
+	}
 	quote, _ := get("/" + refs["x:post:200"] + ".md")
 	for _, want := range []string{"my take on it", "引用：", "> **Chun**", "> the original thing"} {
 		if !strings.Contains(quote, want) {
@@ -182,9 +188,9 @@ func TestPostAsMarkdownWithItsComments(t *testing.T) {
 	if !strings.Contains(like, "类型: Like") || !strings.Contains(like, "> the original thing") {
 		t.Errorf("like:\n%s", like)
 	}
-	// What is private is not there, for the owner's request too: nothing says it exists.
-	if _, status := get("/" + refs["weibo:post:2"] + ".md"); status != 404 {
-		t.Errorf("a private post = %d, want 404", status)
+	// The owner's Markdown follows the same visibility and comments as the SPA.
+	if private, status := get("/" + refs["weibo:post:2"] + ".md"); status != 200 || !strings.Contains(private, "private secret note") {
+		t.Errorf("the owner cannot read a private post: status=%d body=%s", status, private)
 	}
 	if _, status := get("/nosuchref.md"); status != 404 {
 		t.Errorf("a missing post = %d, want 404", status)
@@ -232,13 +238,13 @@ func TestPagesOfferTheirMarkdown(t *testing.T) {
 		{"text/markdown, text/html", true},
 		{"text/markdown, text/html;q=0.8", true},
 		{"text/html, text/markdown;q=0.5", false},
-		{"text/html, text/markdown", false},
+		{"text/html, text/markdown", true},
 		{"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", false},
 		{"text/markdown;q=0", false},
 		{"*/*", false},
 		{"", false},
 	} {
-		for path, marker := range map[string]string{"/": "# Alice 的时间线", post: "类型: Create"} {
+		for path, marker := range map[string]string{"/": "# Alice's Notes", post: "类型: Create"} {
 			resp, body := get(path, c.accept)
 			if isMarkdown(resp) != c.markdown || (c.markdown && !strings.Contains(body, marker)) {
 				t.Errorf("GET %s accepting %q: markdown=%v, want %v", path, c.accept, isMarkdown(resp), c.markdown)
@@ -252,9 +258,9 @@ func TestPagesOfferTheirMarkdown(t *testing.T) {
 			}
 		}
 	}
-	// What is private is not offered as Markdown, whoever asks.
-	if resp, _ := get("/"+refs["weibo:post:2"], "text/markdown"); resp.StatusCode != 404 {
-		t.Errorf("a private post, asking for Markdown = %d, want 404", resp.StatusCode)
+	// The owner's Markdown route follows the same visibility as the SPA.
+	if resp, body := get("/"+refs["weibo:post:2"], "text/markdown"); resp.StatusCode != 200 || !isMarkdown(resp) || !strings.Contains(body, "private secret note") {
+		t.Errorf("a private post, asking for Markdown = %d %s", resp.StatusCode, body)
 	}
 }
 

@@ -32,7 +32,7 @@ func RegisterRoutes(m *http.ServeMux, store *core.Store, hub *Hub, site Site) {
 	m.Handle("GET /api/events", hub)
 	m.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, 200, map[string]bool{"ok": true}) })
 	// Collectors write through /collect. The owner reads and writes under /admin; visitors read the pages, /index.md,
-	// /<ref>.md and /terminal.
+	// and /<ref>.md.
 	m.HandleFunc("POST /collect/ingest", a.ingest)
 	m.HandleFunc("POST /collect/known", a.known)
 	m.HandleFunc("POST /collect/status", a.reportDevice)

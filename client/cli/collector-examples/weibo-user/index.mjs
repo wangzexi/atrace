@@ -120,8 +120,37 @@ function stripHtml(value = "") {
     .trim();
 }
 
-function textOf(status) {
-  return status.text_raw || stripHtml(status.text || "");
+function attachedVideoLink(link) {
+  if (!link?.short_url || !link.long_url) return false;
+  try {
+    const url = new URL(link.long_url);
+    return (url.protocol === "https:" || url.protocol === "http:") &&
+      ((url.hostname === "video.weibo.com" && url.pathname.startsWith("/show")) ||
+       ((url.hostname === "weibo.com" || url.hostname === "www.weibo.com") && url.pathname.startsWith("/tv/show/")));
+  } catch {
+    return false;
+  }
+}
+
+// Weibo repeats a post's video as a t.cn link in its text and as a playable
+// attachment. Keep the attachment and omit only that duplicate video-page link.
+function withoutAttachedVideoLink(status, words) {
+  if (!attachmentsOf(status).some(attachment => attachment.type === "Video")) return words;
+  let text = String(words || "");
+  for (const link of status.url_struct || []) {
+    if (attachedVideoLink(link) && text.includes(link.short_url)) {
+      text = text.split(link.short_url).join("");
+    }
+  }
+  return text
+    .replace(/[ \t]+([,，。.!！?？])/g, "$1")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/^[ \t]+|[ \t]+$/gm, "")
+    .trim();
+}
+
+function textOf(status, words = status.text_raw || stripHtml(status.text || "")) {
+  return withoutAttachedVideoLink(status, words);
 }
 
 function publishedOf(status) {
@@ -219,8 +248,9 @@ function imageTypeProblem(url, mime) {
   return expected && mime && mime !== expected ? `${mime} for a .${extension} address` : "";
 }
 
-function longTextOf(payload) {
-  return stripHtml(payload.data.longTextContent);
+function longTextOf(payload, status) {
+  const text = stripHtml(payload.data.longTextContent);
+  return status ? withoutAttachedVideoLink(status, text) : text;
 }
 
 function noteDocument(status, text, attachments, quote) {
@@ -617,7 +647,7 @@ async function fullTextIfNeeded(page, status, collectedLongText) {
     return textOf(status);
   }
   collectedLongText[id] = payload;
-  return longTextOf(payload);
+  return longTextOf(payload, status);
 }
 
 async function importPost(status, raw, options = {}) {

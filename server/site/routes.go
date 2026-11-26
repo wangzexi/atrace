@@ -85,14 +85,6 @@ func RegisterRoutes(m *http.ServeMux, feed FeedQuery, owner string) {
 	})
 	// The timeline as Markdown, which is also where it is searched and paged.
 	m.HandleFunc("GET /index.md", renderer.timelineMarkdown)
-	m.HandleFunc("GET /terminal", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		w.Header().Set("Cache-Control", "no-store")
-		_, _ = io.WriteString(w, terminalPage)
-	})
-	m.HandleFunc("GET /terminal.md", func(w http.ResponseWriter, r *http.Request) {
-		writeMarkdown(w, r, archiveReadme)
-	})
 	m.HandleFunc("POST /api/shell", renderer.shell)
 	m.HandleFunc("GET /api/archive-file", renderer.archiveDownload)
 
@@ -113,7 +105,12 @@ func RegisterRoutes(m *http.ServeMux, feed FeedQuery, owner string) {
 			return
 		}
 		alternate(w, "/"+ref+".md")
-		if prefersMarkdown(r) {
+		markdown, acceptable := pageRepresentation(r)
+		if !acceptable {
+			http.Error(w, "no acceptable representation; request text/html or text/markdown", http.StatusNotAcceptable)
+			return
+		}
+		if markdown {
 			renderer.postMarkdown(w, r, ref)
 			return
 		}
@@ -186,7 +183,12 @@ func webBuild() fs.FS {
 // home is the timeline: the page, or its Markdown for a request that asks for that.
 func (renderer *Renderer) home(w http.ResponseWriter, r *http.Request) {
 	alternate(w, "/index.md")
-	if prefersMarkdown(r) {
+	markdown, acceptable := pageRepresentation(r)
+	if !acceptable {
+		http.Error(w, "no acceptable representation; request text/html or text/markdown", http.StatusNotAcceptable)
+		return
+	}
+	if markdown {
 		renderer.timelineMarkdown(w, r)
 		return
 	}

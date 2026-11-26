@@ -16,7 +16,6 @@ export default defineConfig({
     proxy: {
       '/api': target,
       '/files': target,
-      '/terminal': target,
       '/manage': target,
       '/login': {
         target,
