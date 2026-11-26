@@ -1,0 +1,104 @@
+{
+  "kind": "tweet",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Fri Jul 11 17:02:23 +0000 2014",
+              "name": "示例文本",
+              "screen_name": "示例文本_示例"
+            },
+            "id": "fixturef2c3a2a862d6c",
+            "rest_id": "9735039867"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Fri Nov 13 14:39:17 +0000 2026",
+        "display_text_range": [
+          0,
+          60
+        ],
+        "entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixturec3b3/status/9444888377585222396/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixture95859a33.jpg",
+              "original_info": {
+                "height": 1448,
+                "width": 1086
+              },
+              "type": "photo",
+              "url": "https://t.co/fixture928f"
+            }
+          ]
+        },
+        "extended_entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixturec3b3/status/9444888377585222396/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixture95859a33.jpg",
+              "original_info": {
+                "height": 1448,
+                "width": 1086
+              },
+              "type": "photo",
+              "url": "https://t.co/fixture928f"
+            }
+          ]
+        },
+        "full_text": "示例文本示例文本示例文本示例文本 示例文本，示例文本示例文本示例文。\n\n示例文本示例文本示，示例文本示例，示例文本示例😄 https://t.co/fixture928f",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "9735039867"
+      },
+      "rest_id": "9444888377585222396"
+    },
+    "me": "9735039867"
+  },
+  "expectedKind": "post",
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9735039867",
+        "url": "https://x.com/示例文本_示例",
+        "name": "示例文本"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9444888377585222396",
+        "attributedTo": "x:user:9735039867",
+        "content": "示例文本示例文本示例文本示例文本 示例文本，示例文本示例文本示例文。\n\n示例文本示例文本示，示例文本示例，示例文本示例😄",
+        "url": "https://x.com/示例文本_示例/status/9444888377585222396",
+        "published": "2026-11-13T14:39:17.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://pbs.twimg.com/media/fixture95859a33.jpg?name=large",
+            "width": 1086,
+            "height": 1448
+          }
+        ]
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "x:user:9735039867",
+        "object": "x:post:9444888377585222396",
+        "published": "2026-11-13T14:39:17.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

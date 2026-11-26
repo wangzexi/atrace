@@ -1,0 +1,14 @@
+{
+  "imageURL": "https://example.invalid/ci.png",
+  "imageBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a1ZkAAAAASUVORK5CYII=",
+  "posts": [
+    [
+      "public",
+      "公开的测试笔记 searchable-public"
+    ],
+    [
+      "private",
+      "仅主人可见 searchable-private"
+    ]
+  ]
+}

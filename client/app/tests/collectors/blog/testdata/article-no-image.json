@@ -1,0 +1,31 @@
+{
+  "kind": "article",
+  "input": {
+    "directory": "synthetic-article-article-no-image",
+    "source": "# Synthetic article\n\nA synthetic paragraph for testing.\n"
+  },
+  "expectedImages": [],
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:article:6fc81520985e",
+        "name": "Synthetic article",
+        "attributedTo": "github:user:example",
+        "mediaType": "text/markdown",
+        "content": "A synthetic paragraph for testing.",
+        "url": "https://github.com/example/blog/tree/main/synthetic-article-article-no-image"
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "github:user:example",
+        "object": "github:article:6fc81520985e"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

@@ -1,0 +1,46 @@
+{
+  "kind": "star",
+  "note": "Synthetic fixture; no real account, repository or activity data.",
+  "input": {
+    "meLogin": "example-user",
+    "item": {
+      "href": "/example-org/spaced?tab=readme#top",
+      "description": "  Two\n  lines   and   gaps.  ",
+      "language": "Rust",
+      "topics": [],
+      "updated": "2026-02-02T00:00:00Z"
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "github:user:example-org",
+        "name": "example-org",
+        "url": "https://github.com/example-org"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:repo:example-org/spaced",
+        "attributedTo": "github:user:example-org",
+        "name": "example-org/spaced",
+        "summary": "Two lines and gaps.",
+        "url": "https://github.com/example-org/spaced"
+      },
+      "downloads": []
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Add",
+        "actor": "github:user:example-user",
+        "object": "github:repo:example-org/spaced",
+        "target": "github:star:example-user"
+      }
+    }
+  ]
+}

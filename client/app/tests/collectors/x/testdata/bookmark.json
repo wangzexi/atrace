@@ -1,0 +1,103 @@
+{
+  "kind": "bookmark",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Tue Mar 17 04:33:41 +0000 2020",
+              "name": "示例文本示例文本示例文",
+              "screen_name": "示例文本示例文本示例文"
+            },
+            "id": "fixture6635f47a63f7f06",
+            "rest_id": "9121987735648880572"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Tue Aug 04 04:00:44 +0000 2026",
+        "display_text_range": [
+          0,
+          99
+        ],
+        "entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixture749a/status/9116974854948510501/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixture47e851e7.png",
+              "original_info": {
+                "height": 806,
+                "width": 1042
+              },
+              "type": "photo",
+              "url": "https://t.co/fixtured9fa"
+            }
+          ]
+        },
+        "extended_entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixture749a/status/9116974854948510501/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixture47e851e7.png",
+              "original_info": {
+                "height": 806,
+                "width": 1042
+              },
+              "type": "photo",
+              "url": "https://t.co/fixtured9fa"
+            }
+          ]
+        },
+        "full_text": "示例文本示例文本示例文，示例文本示例文本示例文本示例文本示例文本示例文本示例文本示例文。\n\n示例文本示例文本示例文本，示例文本 示例文本示例文本示。\n\n示例文本示例文本示例文本示例文本 示例 示例。 https://t.co/fixtured9fa",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "9121987735648880572"
+      },
+      "rest_id": "9116974854948510501"
+    },
+    "me": "9735039867"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9121987735648880572",
+        "url": "https://x.com/示例文本示例文本示例文",
+        "name": "示例文本示例文本示例文"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9116974854948510501",
+        "attributedTo": "x:user:9121987735648880572",
+        "content": "示例文本示例文本示例文，示例文本示例文本示例文本示例文本示例文本示例文本示例文本示例文。\n\n示例文本示例文本示例文本，示例文本 示例文本示例文本示。\n\n示例文本示例文本示例文本示例文本 示例 示例。",
+        "url": "https://x.com/示例文本示例文本示例文/status/9116974854948510501",
+        "published": "2026-08-04T04:00:44.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://pbs.twimg.com/media/fixture47e851e7.png?name=large",
+            "width": 1042,
+            "height": 806
+          }
+        ]
+      }
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Add",
+        "actor": "x:user:9735039867",
+        "object": "x:post:9116974854948510501",
+        "target": "x:collection:bookmarks"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

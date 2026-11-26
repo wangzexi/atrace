@@ -1,0 +1,139 @@
+{
+  "kind": "tweet",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Fri Jul 11 17:02:23 +0000 2014",
+              "name": "示例文本",
+              "screen_name": "示例文本_示例"
+            },
+            "id": "fixturef2c3a2a862d6c",
+            "rest_id": "9735039867"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Fri Nov 13 14:39:17 +0000 2026",
+        "display_text_range": [
+          0,
+          60
+        ],
+        "entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixturec3b3/status/9444888377585222396/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixture95859a33.jpg",
+              "original_info": {
+                "height": 1448,
+                "width": 1086
+              },
+              "type": "photo",
+              "url": "https://t.co/fixture928f"
+            }
+          ]
+        },
+        "extended_entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixturec3b3/status/9444888377585222396/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixture95859a33.jpg",
+              "original_info": {
+                "height": 1448,
+                "width": 1086
+              },
+              "type": "photo",
+              "url": "https://t.co/fixture928f"
+            }
+          ]
+        },
+        "full_text": "示例 @示例文本示例文本: 示例文本示例:\n\n示例文本示例文本示例文本示，示例文本示例文本示例，示例文本示例文本示，示例文本示例文本示？",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "9735039867",
+        "retweeted_status_result": {
+          "result": {
+            "__typename": "Tweet",
+            "core": {
+              "user_results": {
+                "result": {
+                  "__typename": "User",
+                  "core": {
+                    "created_at": "Sat Jun 01 07:32:24 +0000 2013",
+                    "name": "示例文",
+                    "screen_name": "示例文本示例文本"
+                  },
+                  "id": "fixture0b191badf646c",
+                  "rest_id": "9593601791"
+                }
+              }
+            },
+            "legacy": {
+              "created_at": "Mon Oct 05 14:02:22 +0000 2026",
+              "display_text_range": [
+                0,
+                54
+              ],
+              "entities": {},
+              "full_text": "示例文本示例:\n\n示例文本示例文本示例文本示，示例文本示例文本示例，示例文本示例文本示，示例文本示例文本示？",
+              "is_quote_status": false,
+              "retweeted": false,
+              "user_id_str": "9593601791"
+            },
+            "rest_id": "9131150548052007420"
+          }
+        }
+      },
+      "rest_id": "9822507665303575482"
+    },
+    "me": "9735039867"
+  },
+  "expectedKind": "retweet",
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9735039867",
+        "url": "https://x.com/示例文本_示例",
+        "name": "示例文本"
+      }
+    },
+    {
+      "role": "cited-author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9593601791",
+        "url": "https://x.com/示例文本示例文本",
+        "name": "示例文"
+      }
+    },
+    {
+      "role": "cited",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9131150548052007420",
+        "attributedTo": "x:user:9593601791",
+        "content": "示例文本示例:\n\n示例文本示例文本示例文本示，示例文本示例文本示例，示例文本示例文本示，示例文本示例文本示？",
+        "url": "https://x.com/示例文本示例文本/status/9131150548052007420",
+        "published": "2026-10-05T14:02:22.000Z"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Announce",
+        "id": "x:post:9822507665303575482",
+        "actor": "x:user:9735039867",
+        "object": "x:post:9131150548052007420",
+        "url": "https://x.com/示例文本_示例/status/9822507665303575482",
+        "published": "2026-11-13T14:39:17.000Z"
+      }
+    }
+  ]
+}

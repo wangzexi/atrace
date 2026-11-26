@@ -1,0 +1,42 @@
+{
+  "kind": "like",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "video": {
+      "aweme_id": "9389054738373752066",
+      "desc": "示例文本示例文",
+      "create_time": 1793182314,
+      "text_extra": [],
+      "video": {
+        "cover": {
+          "url_list": []
+        },
+        "origin_cover": {
+          "url_list": []
+        }
+      }
+    },
+    "meId": "9101881629991423",
+    "cover": null
+  },
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Video",
+        "id": "douyin:video:9389054738373752066",
+        "content": "示例文本示例文",
+        "url": "https://www.douyin.com/video/9389054738373752066",
+        "published": "2026-10-28T10:11:54.000Z"
+      }
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "douyin:user:9101881629991423",
+        "object": "douyin:video:9389054738373752066"
+      }
+    }
+  ]
+}

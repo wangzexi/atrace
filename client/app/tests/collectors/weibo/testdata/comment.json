@@ -1,0 +1,115 @@
+{
+  "kind": "comment",
+  "input": {
+    "comment": {
+      "created_at": "Sun Nov 08 23:50:42 +0800 2026",
+      "id": 9950592922295404,
+      "rootidstr": "9950592922295404",
+      "text": "示例文本示例文本示例文本示例文本示例文本示例",
+      "source": "示例 示例",
+      "user": {
+        "id": 9284305051,
+        "idstr": "9284305051",
+        "screen_name": "示例文本_示例",
+        "url": ""
+      },
+      "idstr": "9950592922295404",
+      "pic_num": 0,
+      "comments": [
+        {
+          "created_at": "Sun Nov 08 23:51:33 +0800 2026",
+          "id": 9805875551348176,
+          "rootidstr": "9950592922295404",
+          "text": "示例文本示例文本示例",
+          "source": "示例 示例",
+          "user": {
+            "id": 1000000001,
+            "idstr": "1000000001",
+            "screen_name": "示例文本示例文本示",
+            "url": ""
+          },
+          "idstr": "9805875551348176",
+          "reply_comment": {
+            "created_at": "Sun Nov 08 23:50:42 +0800 2026",
+            "id": 9950592922295404,
+            "rootidstr": "9950592922295404",
+            "text": "示例文本示例文本示例文本示例文本示例文本示例",
+            "user": {
+              "id": 9284305051,
+              "idstr": "9284305051",
+              "screen_name": "示例文本_示例",
+              "url": ""
+            },
+            "idstr": "9950592922295404",
+            "pic_num": 0
+          },
+          "pic_num": 0,
+          "text_raw": "示例文本示例文本示例"
+        },
+        {
+          "created_at": "Sun Nov 08 23:51:05 +0800 2026",
+          "id": 9319865240516032,
+          "rootidstr": "9950592922295404",
+          "text": "示例文本示例文本示例",
+          "source": "示例 示例",
+          "user": {
+            "id": 9284305051,
+            "idstr": "9284305051",
+            "screen_name": "示例文本_示例",
+            "url": ""
+          },
+          "idstr": "9319865240516031",
+          "reply_comment": {
+            "created_at": "Sun Nov 08 23:50:42 +0800 2026",
+            "id": 9950592922295404,
+            "rootidstr": "9950592922295404",
+            "text": "示例文本示例文本示例文本示例文本示例文本示例",
+            "user": {
+              "id": 9284305051,
+              "idstr": "9284305051",
+              "screen_name": "示例文本_示例",
+              "url": ""
+            },
+            "idstr": "9950592922295404",
+            "pic_num": 0
+          },
+          "pic_num": 0,
+          "text_raw": "示例文本示例文本示例"
+        }
+      ],
+      "fixture71aae3f9bee0b": false,
+      "text_raw": "示例文本示例文本示例文本示例文本示例文本示例"
+    },
+    "post": {
+      "idstr": "9304330510355219",
+      "mblogid": "fixture0176",
+      "user": {
+        "idstr": "1000000001"
+      }
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "weibo:user:9284305051",
+        "url": "https://weibo.com/u/9284305051",
+        "name": "示例文本_示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "weibo:comment:9950592922295404",
+        "attributedTo": "weibo:user:9284305051",
+        "inReplyTo": "weibo:post:9304330510355219",
+        "content": "示例文本示例文本示例文本示例文本示例文本示例",
+        "url": "https://weibo.com/1000000001/fixture0176",
+        "published": "2026-11-08T15:50:42.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

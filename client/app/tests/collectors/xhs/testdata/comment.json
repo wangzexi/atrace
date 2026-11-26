@@ -1,0 +1,35 @@
+{
+  "kind": "comment",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "cardId": "f39997b0e2da96123df87982",
+    "comment": {
+      "profile": "/user/profile/f6d9e9f4c30df54f224f4538",
+      "author": "fixtureb62a",
+      "text": "示例文本 示例文本示",
+      "reply": false
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "xiaohongshu:user:f6d9e9f4c30df54f224f4538",
+        "url": "https://www.xiaohongshu.com/user/profile/f6d9e9f4c30df54f224f4538",
+        "name": "fixtureb62a"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "xiaohongshu:comment:892dfe11af12c3fa",
+        "attributedTo": "xiaohongshu:user:f6d9e9f4c30df54f224f4538",
+        "inReplyTo": "xiaohongshu:note:f39997b0e2da96123df87982",
+        "content": "示例文本 示例文本示",
+        "url": "https://www.xiaohongshu.com/explore/f39997b0e2da96123df87982"
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "kind": "tweet",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Fri Jul 11 17:02:23 +0000 2014",
+              "name": "示例文本",
+              "screen_name": "示例文本_示例"
+            },
+            "id": "fixturef2c3a2a862d6c",
+            "rest_id": "9735039867"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Thu Nov 12 11:51:41 +0000 2026",
+        "display_text_range": [
+          14,
+          59
+        ],
+        "entities": {},
+        "full_text": "@示例文本示例文本示例文本 示例文、示例文本示例文本示例文本示例文本示例文本，示例文本示例文，示例文本示例文本示例文。",
+        "in_reply_to_status_id_str": "9780315943115051165",
+        "in_reply_to_user_id_str": "9735039867",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "9735039867"
+      },
+      "rest_id": "9458027317884823281"
+    },
+    "me": "9735039867"
+  },
+  "expectedKind": "reply",
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9735039867",
+        "url": "https://x.com/示例文本_示例",
+        "name": "示例文本"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9458027317884823281",
+        "attributedTo": "x:user:9735039867",
+        "inReplyTo": "x:post:9780315943115051165",
+        "content": "示例文、示例文本示例文本示例文本示例文本示例文本，示例文本示例文，示例文本示例文本示例文。",
+        "url": "https://x.com/示例文本_示例/status/9458027317884823281",
+        "published": "2026-11-12T11:51:41.000Z"
+      }
+    }
+  ]
+}

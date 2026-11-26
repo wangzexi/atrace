@@ -1,0 +1,48 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: |
+            server/go.sum
+            client/app/go.sum
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: '1.4.2'
+      - name: Build and test the web client
+        working-directory: client/web
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+          bun run unused
+      - name: Test and build the server
+        working-directory: server
+        run: |
+          go vet ./...
+          go test ./...
+          mkdir -p build
+          CGO_ENABLED=0 go build -trimpath -o build/atrace-server .
+      - name: Test the app and collectors
+        run: |
+          (cd client/app && go test ./...)
+          bun test client/app/tests/collectors client/app/tests/package-update.test.mjs
+      - name: Exercise the browser
+        working-directory: client/web
+        run: |
+          bunx --bun playwright install --with-deps chromium
+          export ATRACE_TEST_REPORTS="$(mktemp -d)"
+          export ATRACE_TEST_PORT="$(bun -e 'const s=require("node:net").createServer();s.listen(0,"127.0.0.1",()=>{console.log(s.address().port);s.close()})')"
+          bunx --bun playwright test

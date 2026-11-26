@@ -1,0 +1,44 @@
+{
+  "kind": "article",
+  "input": {
+    "directory": "synthetic-article-article-assets",
+    "source": "# Synthetic article\n\nA synthetic paragraph for testing.\n![fixture](assets/fixture.png)\n"
+  },
+  "expectedImages": [
+    {
+      "relative": "assets/fixture.png",
+      "mime": "image/png",
+      "url": "https://raw.githubusercontent.com/example/blog/main/synthetic-article-article-assets/assets/fixture.png",
+      "path": "synthetic-article-article-assets/assets/fixture.png"
+    }
+  ],
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:article:ec30835e4ef3",
+        "name": "Synthetic article",
+        "attributedTo": "github:user:example",
+        "mediaType": "text/markdown",
+        "content": "A synthetic paragraph for testing.\n![fixture](assets/fixture.png)",
+        "url": "https://github.com/example/blog/tree/main/synthetic-article-article-assets",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://raw.githubusercontent.com/example/blog/main/synthetic-article-article-assets/assets/fixture.png"
+          }
+        ]
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "github:user:example",
+        "object": "github:article:ec30835e4ef3"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

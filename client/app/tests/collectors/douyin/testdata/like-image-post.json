@@ -1,0 +1,98 @@
+{
+  "kind": "like",
+  "input": {
+    "video": {
+      "aweme_id": "9447660897403624452",
+      "desc": "示例文本，示例文本。\n示例文本示例文本，示例文本示。#示例 #示例文本示例",
+      "create_time": 1794106893,
+      "author": {
+        "uid": "9115635596633608",
+        "nickname": "示例",
+        "sec_uid": "fixturea322e76fbe438fe"
+      },
+      "text_extra": [
+        {
+          "hashtag_name": "示例"
+        },
+        {
+          "hashtag_name": "示例文本示例"
+        }
+      ],
+      "video": {
+        "cover": {
+          "url_list": [
+            "https://p9-pc-sign.douyinpic.com/fixture002daa/fixture8bc833476b6abc4.jpeg?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&biz_tag=fixture&l=fixture",
+            "https://p3-pc-sign.douyinpic.com/fixture002daa/fixture8bc833476b6abc4.jpeg?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&biz_tag=fixture&l=fixture"
+          ]
+        },
+        "origin_cover": {
+          "url_list": [
+            "https://p3-pc-sign.douyinpic.com/fixture002daa/fixturec544918239047ad.jpeg?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&biz_tag=fixture&l=fixture",
+            "https://p9-pc-sign.douyinpic.com/fixture002daa/fixturec544918239047ad.jpeg?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&biz_tag=fixture&l=fixture"
+          ]
+        }
+      },
+      "images": [
+        {
+          "url_list": [
+            "https://p9-pc-sign.douyinpic.com/fixture002daa/fixture8bebb073223ef11.webp?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&sc=fixture&biz_tag=fixture&l=fixture",
+            "https://p3-pc-sign.douyinpic.com/fixture002daa/fixture8bebb073223ef11.webp?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&sc=fixture&biz_tag=fixture&l=fixture",
+            "https://p9-pc-sign.douyinpic.com/fixture002daa/fixture8bebb073223ef11.jpeg?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&sc=fixture&biz_tag=fixture&l=fixture"
+          ]
+        }
+      ]
+    },
+    "meId": "9101881629991423",
+    "cover": {
+      "url": "https://p3-pc-sign.douyinpic.com/fixture002daa/fixture8bc833476b6abc4.jpeg",
+      "source": "https://p9-pc-sign.douyinpic.com/fixture002daa/fixture8bc833476b6abc4.jpeg?lk3s=fixture&x-expires=1700000000&x-signature=fixture&from=fixture&s=fixture&se=fixture&biz_tag=fixture&l=fixture"
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "douyin:user:9115635596633608",
+        "name": "示例",
+        "url": "https://www.douyin.com/user/fixturea322e76fbe438fe"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Video",
+        "id": "douyin:video:9447660897403624452",
+        "attributedTo": "douyin:user:9115635596633608",
+        "content": "示例文本，示例文本。\n示例文本示例文本，示例文本示。#示例 #示例文本示例",
+        "url": "https://www.douyin.com/video/9447660897403624452",
+        "published": "2026-11-08T03:01:33.000Z",
+        "tag": [
+          {
+            "type": "Hashtag",
+            "name": "示例"
+          },
+          {
+            "type": "Hashtag",
+            "name": "示例文本示例"
+          }
+        ],
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://p3-pc-sign.douyinpic.com/fixture002daa/fixture8bc833476b6abc4.jpeg"
+          }
+        ]
+      }
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "douyin:user:9101881629991423",
+        "object": "douyin:video:9447660897403624452"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <meta
+      name="description"
+      content="个人时间线，来自各个平台的内容。有 Markdown 版本，适合 AI 阅读：/index.md 是时间线，可以搜索和翻页；/<标识>.md 是单条，带评论。"
+    />
+    <link
+      rel="alternate"
+      type="text/markdown"
+      href="/index.md"
+      title="Markdown 版本，适合 AI 阅读"
+    />
+  </head>
+  <body>
+    <!-- 给读这个页面的程序（AI）：内容有 Markdown 版本，不用执行脚本。
+         /index.md 是时间线，支持 q（搜索）、regex=1、types、after、since、until、limit；/<标识>.md 是单条，带评论。
+         请求头 Accept: text/markdown 时，/ 和 /<标识> 直接返回 Markdown。 -->
+    <div id="root"></div>
+    <noscript>
+      <p>
+        这个页面需要脚本才能显示。它的内容有 Markdown 版本，适合程序阅读：<a href="/index.md"
+          >时间线 /index.md</a
+        >，单条是 /&lt;标识&gt;.md。
+      </p>
+    </noscript>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>

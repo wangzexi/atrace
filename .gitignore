@@ -2,3 +2,13 @@
 .env
 .env.*
 !.env.example
+/data/
+/.claude/
+
+/server/build/
+/client/app/build/
+
+/ci-results/
+/client/web/test-results/
+/client/web/playwright-report/
+/client/app/app

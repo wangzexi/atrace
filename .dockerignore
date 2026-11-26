@@ -1,0 +1,9 @@
+.git
+**/node_modules
+**/build
+**/.DS_Store
+ci-results
+
+.env
+.env.*
+data

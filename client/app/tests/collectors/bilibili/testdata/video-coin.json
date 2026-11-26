@@ -1,0 +1,62 @@
+{
+  "kind": "video",
+  "input": {
+    "video": {
+      "bvid": "BV1d086c9274",
+      "title": "示例文本示例文本示例｜示例文本示例文本示例文本示",
+      "desc": "示例文本示例文本示例文本示，示例文本示例文本示例：示例文本示例文 示例文本（示例文）。示例文本示例文本示例？",
+      "pic": "http://i2.hdslb.com/fixture83e0/fixturefd96/f1c6e69db433d79edfe53766032f4fa8ba4ef0e1.jpg",
+      "pubdate": 1792051200,
+      "time": 1792315866,
+      "owner": {
+        "mid": 949421918,
+        "name": "示例文"
+      }
+    },
+    "mode": "coin",
+    "meId": "9378066"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "bilibili:user:949421918",
+        "url": "https://space.bilibili.com/949421918",
+        "name": "示例文"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Video",
+        "id": "bilibili:video:BV1d086c9274",
+        "attributedTo": "bilibili:user:949421918",
+        "name": "示例文本示例文本示例｜示例文本示例文本示例文本示",
+        "summary": "示例文本示例文本示例文本示，示例文本示例文本示例：示例文本示例文 示例文本（示例文）。示例文本示例文本示例？",
+        "url": "https://www.bilibili.com/video/BV1d086c9274",
+        "published": "2026-10-15T08:00:00.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://i2.hdslb.com/fixture83e0/fixturefd96/f1c6e69db433d79edfe53766032f4fa8ba4ef0e1.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://i2.hdslb.com/fixture83e0/fixturefd96/f1c6e69db433d79edfe53766032f4fa8ba4ef0e1.jpg"
+      ]
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Add",
+        "actor": "bilibili:user:9378066",
+        "object": "bilibili:video:BV1d086c9274",
+        "target": "bilibili:collection:coins",
+        "published": "2026-10-18T09:31:06.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

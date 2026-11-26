@@ -1,0 +1,61 @@
+{
+  "kind": "like",
+  "input": {
+    "card": {
+      "id": "ff4120ff2c062b8ec8904f2b",
+      "token": "fixture",
+      "title": "示例文本，示例文本示例文本#示例文本 #示例文本 #示例文本 #示例文本示例文 ",
+      "type": "video",
+      "time": 0,
+      "author": {
+        "id": "f5cd27a4b9e38e86a7fc8495",
+        "name": "示例文本"
+      },
+      "cover": "http://sns-webpic-qc.xhscdn.com/979597727776/f1a7f138451fb7dc9f8cd37e9df0d5da/fixture5a76/fixtureab774132cf20dab"
+    },
+    "meId": "fe7c106f4d7500fbfadf7dd0"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "xiaohongshu:user:f5cd27a4b9e38e86a7fc8495",
+        "url": "https://www.xiaohongshu.com/user/profile/f5cd27a4b9e38e86a7fc8495",
+        "name": "示例文本"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "xiaohongshu:note:ff4120ff2c062b8ec8904f2b",
+        "attributedTo": "xiaohongshu:user:f5cd27a4b9e38e86a7fc8495",
+        "name": "示例文本，示例文本示例文本#示例文本 #示例文本 #示例文本 #示例文本示例文 ",
+        "content": "",
+        "url": "https://www.xiaohongshu.com/explore/ff4120ff2c062b8ec8904f2b",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://sns-webpic-qc.xhscdn.com/fixtureab774132cf20dab"
+          }
+        ]
+      },
+      "downloads": [
+        {
+          "url": "https://sns-webpic-qc.xhscdn.com/fixtureab774132cf20dab",
+          "source": "https://sns-webpic-qc.xhscdn.com/979597727776/f1a7f138451fb7dc9f8cd37e9df0d5da/fixture5a76/fixtureab774132cf20dab"
+        }
+      ]
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "xiaohongshu:user:fe7c106f4d7500fbfadf7dd0",
+        "object": "xiaohongshu:note:ff4120ff2c062b8ec8904f2b"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

@@ -1,0 +1,61 @@
+{
+  "kind": "content",
+  "input": {
+    "entry": {
+      "id": "9596837973837116491",
+      "type": "pin",
+      "author": {
+        "id": "fa6af753e781b9dae342297eaba8c67b",
+        "name": "示例文本"
+      },
+      "created": 1696484089,
+      "updated": 1696484089,
+      "content": [
+        {
+          "content": "示例文本示例文本示例文 示例 示。示例文本示例，示例文本示例文本、示例文本示例文本示例文本示例，示例文本示例文本示例文本示例。示例文本，示例文本示例文本示例文本，示例文本示例文本示。<br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文本示例#</a> <br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文 示例 示#</a>",
+          "own_text": "示例文本示例文本示例文 示例 示。示例文本示例，示例文本示例文本、示例文本示例文本示例文本示例，示例文本示例文本示例文本示例。示例文本，示例文本示例文本示例文本，示例文本示例文本示。<br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文本示例#</a> <br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文 示例 示#</a>",
+          "type": "text"
+        },
+        {
+          "original_url": "https://pic3.zhimg.com/98/fixture8564a5b7ef5ee8e.jpg",
+          "url": "https://pic3.zhimg.com/98/fixture8564a5b7ef5ee8e.jpg",
+          "type": "image"
+        }
+      ]
+    },
+    "body": {
+      "content": "示例文本示例文本示例文 示例 示。示例文本示例，示例文本示例文本、示例文本示例文本示例文本示例，示例文本示例文本示例文本示例。示例文本，示例文本示例文本示例文本，示例文本示例文本示。<br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文本示例#</a> <br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文 示例 示#</a>",
+      "attachment": [
+        {
+          "type": "Image",
+          "url": "https://pic3.zhimg.com/98/fixture8564a5b7ef5ee8e.jpg"
+        }
+      ]
+    },
+    "actor": "zhihu:user:fa6af753e781b9dae342297eaba8c67b"
+  },
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "zhihu:pin:9596837973837116491",
+        "content": "示例文本示例文本示例文 示例 示。示例文本示例，示例文本示例文本、示例文本示例文本示例文本示例，示例文本示例文本示例文本示例。示例文本，示例文本示例文本示例文本，示例文本示例文本示。<br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文本示例#</a> <br><a href=\"https://www.zhihu.com/fixture004f?q=fixture\">#示例文本示例文 示例 示#</a>",
+        "url": "https://www.zhihu.com/pin/9596837973837116491",
+        "attributedTo": "zhihu:user:fa6af753e781b9dae342297eaba8c67b",
+        "published": "2023-10-05T05:34:49.000Z",
+        "updated": "2023-10-05T05:34:49.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/98/fixture8564a5b7ef5ee8e.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://pic1.zhimg.com/98/fixture8564a5b7ef5ee8e.jpg"
+      ]
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

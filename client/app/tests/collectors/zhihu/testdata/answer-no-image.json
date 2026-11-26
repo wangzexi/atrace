@@ -1,0 +1,49 @@
+{
+  "kind": "content",
+  "input": {
+    "entry": {
+      "id": "93304444",
+      "type": "answer",
+      "question": {
+        "id": "97569735",
+        "title": "示例文本示例文本示例文本示例文本示例文本示例文？"
+      },
+      "author": {
+        "id": "f268e691060dbb7a4b88bbf8ab3e1575",
+        "name": "示例文本示"
+      },
+      "created_time": 1451055116,
+      "updated_time": 1709009015
+    },
+    "body": {
+      "content": "。",
+      "attachment": []
+    },
+    "actor": "zhihu:user:fa6af753e781b9dae342297eaba8c67b"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "zhihu:user:f268e691060dbb7a4b88bbf8ab3e1575",
+        "name": "示例文本示"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "zhihu:answer:93304444",
+        "name": "示例文本示例文本示例文本示例文本示例文本示例文？",
+        "content": "。",
+        "url": "https://www.zhihu.com/question/97569735/answer/93304444",
+        "attributedTo": "zhihu:user:f268e691060dbb7a4b88bbf8ab3e1575",
+        "published": "2015-12-25T14:51:56.000Z",
+        "updated": "2024-02-27T04:43:35.000Z"
+      },
+      "downloads": []
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

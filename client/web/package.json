@@ -1,0 +1,39 @@
+{
+  "name": "atrace-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "bun run check && vite build",
+    "preview": "vite preview",
+    "test": "vitest run App",
+    "check": "bun run lint && bun run typecheck && bun run test",
+    "lint": "oxlint --type-aware --deny-warnings App *.ts *.tsx",
+    "unused": "ATRACE_TEST_PORT=1 knip",
+    "typecheck": "tsc --noEmit",
+    "format": "oxfmt App *.ts *.tsx index.html",
+    "format:check": "oxfmt --check App *.ts *.tsx index.html"
+  },
+  "dependencies": {
+    "lucide-react": "1.81.0",
+    "markdown-it": "^15.0.3",
+    "markdown-it-mark": "^4.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@types/node": "^22.9.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "^6.0.0",
+    "knip": "6.48.0",
+    "oxfmt": "^0.80.0",
+    "oxlint": "^1.95.0",
+    "oxlint-tsgolint": "^7.0.2008",
+    "typescript": "5.6.3",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.0"
+  },
+  "packageManager": "bun@1.4.2"
+}

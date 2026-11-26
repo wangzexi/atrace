@@ -1,0 +1,29 @@
+{
+  "kind": "like",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "card": {
+      "id": "ff4120ff2c062b8ec8904f2b",
+      "token": "fixture",
+      "title": "示例文本，示例文本示例文本#示例文本 #示例文本 #示例文本 #示例文本示例文 ",
+      "type": "video",
+      "time": 0,
+      "author": {
+        "id": "fe7c106f4d7500fbfadf7dd0",
+        "name": "示例"
+      },
+      "cover": "http://sns-webpic-qc.xhscdn.com/979597727776/f1a7f138451fb7dc9f8cd37e9df0d5da/fixture5a76/fixtureab774132cf20dab"
+    },
+    "meId": "fe7c106f4d7500fbfadf7dd0"
+  },
+  "expected": [
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "xiaohongshu:user:fe7c106f4d7500fbfadf7dd0",
+        "object": "xiaohongshu:note:ff4120ff2c062b8ec8904f2b"
+      }
+    }
+  ]
+}

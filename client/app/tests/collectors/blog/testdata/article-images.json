@@ -1,0 +1,66 @@
+{
+  "kind": "article",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "directory": "pics",
+    "source": "---\ncreated_at: \"2026-01-02 03:04:05 +0800\"\n---\n# Pics\n![a](assets/a%20b.png) ![again](assets/a%20b.png) <img src=\"assets/c.JPG\" width=\"10\"> ![v](assets/d.svg) ![x](https://example.com/e.png)\n"
+  },
+  "expectedImages": [
+    {
+      "relative": "assets/a b.png",
+      "mime": "image/png",
+      "url": "https://raw.githubusercontent.com/example/blog/main/pics/assets/a%20b.png",
+      "path": "pics/assets/a b.png"
+    },
+    {
+      "relative": "assets/c.JPG",
+      "mime": "image/jpeg",
+      "url": "https://raw.githubusercontent.com/example/blog/main/pics/assets/c.JPG",
+      "path": "pics/assets/c.JPG"
+    },
+    {
+      "relative": "assets/d.svg",
+      "mime": "image/svg+xml",
+      "url": "https://raw.githubusercontent.com/example/blog/main/pics/assets/d.svg",
+      "path": "pics/assets/d.svg"
+    }
+  ],
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:article:76063a534795",
+        "name": "Pics",
+        "attributedTo": "github:user:example",
+        "mediaType": "text/markdown",
+        "content": "![a](assets/a%20b.png) ![again](assets/a%20b.png) <img src=\"assets/c.JPG\" width=\"10\"> ![v](assets/d.svg) ![x](https://example.com/e.png)",
+        "url": "https://github.com/example/blog/tree/main/pics",
+        "published": "2026-01-01T19:04:05.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://raw.githubusercontent.com/example/blog/main/pics/assets/a%20b.png"
+          },
+          {
+            "type": "Image",
+            "url": "https://raw.githubusercontent.com/example/blog/main/pics/assets/c.JPG"
+          },
+          {
+            "type": "Image",
+            "url": "https://raw.githubusercontent.com/example/blog/main/pics/assets/d.svg"
+          }
+        ]
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "github:user:example",
+        "object": "github:article:76063a534795",
+        "published": "2026-01-01T19:04:05.000Z"
+      }
+    }
+  ]
+}

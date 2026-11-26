@@ -1,0 +1,98 @@
+{
+  "kind": "post",
+  "input": {
+    "status": {
+      "created_at": "Sun Nov 08 01:47:45 +0800 2026",
+      "id": 9304330510355220,
+      "idstr": "9304330510355219",
+      "mblogid": "fixture0176",
+      "user": {
+        "id": 1000000001,
+        "idstr": "1000000001",
+        "screen_name": "示例文本示例文本示"
+      },
+      "source": "示例文本示",
+      "pic_num": 1,
+      "pic_infos": {
+        "fixture5adb312430dcf81": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixture5adb312430dcf81.jpg",
+            "width": 360,
+            "height": 157,
+            "type": ""
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixture5adb312430dcf81.jpg",
+            "width": 824,
+            "height": 360,
+            "type": ""
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixture5adb312430dcf81.jpg",
+            "width": 824,
+            "height": 360,
+            "type": ""
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixture5adb312430dcf81.jpg",
+            "width": 824,
+            "height": 360,
+            "type": ""
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixture5adb312430dcf81.jpg",
+            "width": 824,
+            "height": 360,
+            "type": ""
+          },
+          "type": "pic"
+        }
+      },
+      "fixturef0303e74ba": false,
+      "fixture622cb90eef": false,
+      "fixturea4a41b3d8": false,
+      "text": "示例文本示例文本示例文本示，示例文本示例文本示例文…<img src=\"https://face.t.sinajs.cn/fixture3e09/fixture667c/fixture954d/fixture4009/fixture43a2/fixture8d95/fixture400b16fb12eaf.png\" alt=\"[图片]\"> ​​​",
+      "text_raw": "示例文本示例文本示例文本示，示例文本示例文本示例文…[示例] ​​​"
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "weibo:user:1000000001",
+        "url": "https://weibo.com/u/1000000001",
+        "name": "示例文本示例文本示"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "weibo:post:9304330510355219",
+        "attributedTo": "weibo:user:1000000001",
+        "content": "示例文本示例文本示例文本示，示例文本示例文本示例文…[示例] ​​​",
+        "url": "https://weibo.com/1000000001/fixture0176",
+        "published": "2026-11-07T17:47:45.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixture5adb312430dcf81.jpg",
+            "width": 824,
+            "height": 360
+          }
+        ]
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "weibo:user:1000000001",
+        "object": "weibo:post:9304330510355219",
+        "published": "2026-11-07T17:47:45.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

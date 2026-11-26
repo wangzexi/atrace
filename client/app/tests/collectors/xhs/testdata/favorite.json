@@ -1,0 +1,62 @@
+{
+  "kind": "favorite",
+  "input": {
+    "card": {
+      "id": "fcd5f1301411a406f0b2bf13",
+      "token": "fixture6668f36e81f8387",
+      "title": "示例文本 示.示 示例文本示例文本示例文本",
+      "type": "video",
+      "time": 0,
+      "author": {
+        "id": "f163f9cf48b29b78ca2a5aa9",
+        "name": "示例"
+      },
+      "cover": "http://sns-webpic-qc.xhscdn.com/967499755414/fa6dca360eff4f110c3d475c0af27b8f/fixture5a76/fixturefb50aba1aff7a25"
+    },
+    "meId": "fe7c106f4d7500fbfadf7dd0"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "xiaohongshu:user:f163f9cf48b29b78ca2a5aa9",
+        "url": "https://www.xiaohongshu.com/user/profile/f163f9cf48b29b78ca2a5aa9",
+        "name": "示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "xiaohongshu:note:fcd5f1301411a406f0b2bf13",
+        "attributedTo": "xiaohongshu:user:f163f9cf48b29b78ca2a5aa9",
+        "name": "示例文本 示.示 示例文本示例文本示例文本",
+        "content": "",
+        "url": "https://www.xiaohongshu.com/explore/fcd5f1301411a406f0b2bf13",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://sns-webpic-qc.xhscdn.com/fixturefb50aba1aff7a25"
+          }
+        ]
+      },
+      "downloads": [
+        {
+          "url": "https://sns-webpic-qc.xhscdn.com/fixturefb50aba1aff7a25",
+          "source": "https://sns-webpic-qc.xhscdn.com/967499755414/fa6dca360eff4f110c3d475c0af27b8f/fixture5a76/fixturefb50aba1aff7a25"
+        }
+      ]
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Add",
+        "actor": "xiaohongshu:user:fe7c106f4d7500fbfadf7dd0",
+        "object": "xiaohongshu:note:fcd5f1301411a406f0b2bf13",
+        "target": "xiaohongshu:collection:favorites"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

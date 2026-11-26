@@ -1,0 +1,49 @@
+{
+  "kind": "content",
+  "input": {
+    "entry": {
+      "id": "9390490922",
+      "type": "answer",
+      "question": {
+        "id": "981352184",
+        "title": "示例文本示例文本示例文本示例文本示例？"
+      },
+      "author": {
+        "id": "f031a20bd30cc384aabbe667f36522f6",
+        "name": "示例"
+      },
+      "created_time": 1690017336,
+      "updated_time": 1690032111
+    },
+    "body": {
+      "content": "示例文本示例文本示例文本。\n\n示例文本示例，示例文本，示例文，示例文本，示例文本示例文本示例文本示例文本示例文，示例文本示例。",
+      "attachment": []
+    },
+    "actor": "zhihu:user:fa6af753e781b9dae342297eaba8c67b"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "zhihu:user:f031a20bd30cc384aabbe667f36522f6",
+        "name": "示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "zhihu:answer:9390490922",
+        "name": "示例文本示例文本示例文本示例文本示例？",
+        "content": "示例文本示例文本示例文本。\n\n示例文本示例，示例文本，示例文，示例文本，示例文本示例文本示例文本示例文本示例文，示例文本示例。",
+        "url": "https://www.zhihu.com/question/981352184/answer/9390490922",
+        "attributedTo": "zhihu:user:f031a20bd30cc384aabbe667f36522f6",
+        "published": "2023-07-22T09:15:36.000Z",
+        "updated": "2023-07-22T13:21:51.000Z"
+      },
+      "downloads": []
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "article",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "directory": "plain",
+    "source": "# Only a body\n\ntext\n"
+  },
+  "expectedImages": [],
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:article:a116c9ed46d6",
+        "name": "Only a body",
+        "attributedTo": "github:user:example",
+        "mediaType": "text/markdown",
+        "content": "text",
+        "url": "https://github.com/example/blog/tree/main/plain"
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "github:user:example",
+        "object": "github:article:a116c9ed46d6"
+      }
+    }
+  ]
+}

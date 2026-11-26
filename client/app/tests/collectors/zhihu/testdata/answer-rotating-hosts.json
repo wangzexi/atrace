@@ -1,0 +1,71 @@
+{
+  "kind": "content",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "entry": {
+      "id": "938382387",
+      "type": "answer",
+      "question": {
+        "id": "97073255",
+        "title": "示例文本示例文本示例文本示？"
+      },
+      "author": {
+        "id": "fe7ae2fb78928af406265cc66018466e",
+        "name": "示例"
+      },
+      "created_time": 1492322632,
+      "updated_time": 1492322632
+    },
+    "body": {
+      "content": "",
+      "attachment": [
+        {
+          "type": "Image",
+          "url": "https://picx.zhimg.com/fixture4f26.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pica.zhimg.com/fixtureb0ad.jpg"
+        }
+      ]
+    },
+    "actor": "zhihu:user:fa6af753e781b9dae342297eaba8c67b"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "zhihu:user:fe7ae2fb78928af406265cc66018466e",
+        "name": "示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "zhihu:answer:938382387",
+        "name": "示例文本示例文本示例文本示？",
+        "content": "",
+        "url": "https://www.zhihu.com/question/97073255/answer/938382387",
+        "attributedTo": "zhihu:user:fe7ae2fb78928af406265cc66018466e",
+        "published": "2017-04-16T06:03:52.000Z",
+        "updated": "2017-04-16T06:03:52.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture4f26.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixtureb0ad.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://pic1.zhimg.com/fixture4f26.jpg",
+        "https://pic1.zhimg.com/fixtureb0ad.jpg"
+      ]
+    }
+  ]
+}

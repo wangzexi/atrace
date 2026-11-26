@@ -1,0 +1,136 @@
+{
+  "kind": "like",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Tue Jun 20 14:52:19 +0000 2017",
+              "name": "示例文",
+              "screen_name": "示例文本示例文本示例"
+            },
+            "id": "fixture07b4ed11741ced1",
+            "rest_id": "910431475108010598"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Tue Oct 27 17:59:59 +0000 2026",
+        "display_text_range": [
+          0,
+          130
+        ],
+        "entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixturee9ae/status/9337245639124323905/video/1",
+              "media_url_https": "https://pbs.twimg.com/fixture9c3e3dd9b91c/9625674885371783731/img/fixturef6c529bc2.jpg",
+              "original_info": {
+                "height": 432,
+                "width": 576
+              },
+              "type": "video",
+              "url": "https://t.co/BV178c545ff5",
+              "video_info": {
+                "variants": [
+                  {
+                    "content_type": "application/x-mpegURL",
+                    "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/fixturea446/fixtureab69e142f.m3u8?tag=fixture"
+                  },
+                  {
+                    "bitrate": 256000,
+                    "content_type": "video/mp4",
+                    "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/vid/avc1/fixture8ea4/fixture144c25f51.mp4?tag=fixture"
+                  },
+                  {
+                    "bitrate": 832000,
+                    "content_type": "video/mp4",
+                    "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/vid/avc1/fixture103f/fixture77ea1b298.mp4?tag=fixture"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "extended_entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixturee9ae/status/9337245639124323905/video/1",
+              "media_url_https": "https://pbs.twimg.com/fixture9c3e3dd9b91c/9625674885371783731/img/fixturef6c529bc2.jpg",
+              "original_info": {
+                "height": 432,
+                "width": 576
+              },
+              "type": "video",
+              "url": "https://t.co/BV178c545ff5",
+              "video_info": {
+                "variants": [
+                  {
+                    "content_type": "application/x-mpegURL",
+                    "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/fixturea446/fixtureab69e142f.m3u8?tag=fixture"
+                  },
+                  {
+                    "bitrate": 256000,
+                    "content_type": "video/mp4",
+                    "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/vid/avc1/fixture8ea4/fixture144c25f51.mp4?tag=fixture"
+                  },
+                  {
+                    "bitrate": 832000,
+                    "content_type": "video/mp4",
+                    "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/vid/avc1/fixture103f/fixture77ea1b298.mp4?tag=fixture"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "full_text": "示例文本示例文本示例文本示例，示例文本示例文本示例。示例文本示例文本，示例文本示例。示例文本示例文本示例文本示，示例文本示例文本示例文本，示例文本示例文本，示例文本示例文。示例文本示，示例文本示例文👏示例文本示例文本示例文本示例，示例文本示例，示例文本示例文👍 https://t.co/BV178c545ff5",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "910431475108010598"
+      },
+      "rest_id": "9337245639124323905"
+    },
+    "me": "9735039867"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:910431475108010598",
+        "url": "https://x.com/示例文本示例文本示例",
+        "name": "示例文"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9337245639124323905",
+        "attributedTo": "x:user:910431475108010598",
+        "content": "示例文本示例文本示例文本示例，示例文本示例文本示例。示例文本示例文本，示例文本示例。示例文本示例文本示例文本示，示例文本示例文本示例文本，示例文本示例文本，示例文本示例文。示例文本示，示例文本示例文👏示例文本示例文本示例文本示例，示例文本示例，示例文本示例文👍",
+        "url": "https://x.com/示例文本示例文本示例/status/9337245639124323905",
+        "published": "2026-10-27T17:59:59.000Z",
+        "attachment": [
+          {
+            "type": "Video",
+            "url": "https://video.twimg.com/fixturea3be1e/9625674885371783731/vid/avc1/fixture103f/fixture77ea1b298.mp4?tag=fixture"
+          }
+        ]
+      }
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "x:user:9735039867",
+        "object": "x:post:9337245639124323905"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

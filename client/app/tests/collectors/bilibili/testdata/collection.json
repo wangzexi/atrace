@@ -1,0 +1,25 @@
+{
+  "kind": "collection",
+  "input": {
+    "folder": {
+      "id": 91153063,
+      "fid": 941860,
+      "mid": 9378066,
+      "title": "示例文本示"
+    },
+    "meId": "9378066"
+  },
+  "expected": [
+    {
+      "role": "collection",
+      "document": {
+        "type": "Collection",
+        "id": "bilibili:collection:91153063",
+        "name": "示例文本示",
+        "attributedTo": "bilibili:user:9378066",
+        "url": "https://space.bilibili.com/9378066/favlist?fid=91153063"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

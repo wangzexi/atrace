@@ -1,0 +1,77 @@
+{
+  "kind": "own-note",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "card": {
+      "id": "f39997b0e2da96123df87982",
+      "title": "",
+      "time": 0
+    },
+    "note": {
+      "title": "示例文本示例文本示例文本示例文本示😅",
+      "desc": "合成笔记\n#Example[话题]#",
+      "type": "normal",
+      "time": 1794586439000,
+      "updated": 1794586440000,
+      "tags": [
+        "Example"
+      ],
+      "images": [
+        "http://sns-webpic-qc.xhscdn.com/979597727776/fbe18753d244400febf130bdcd414895/fixture4f18fa1afd1b31b",
+        "http://sns-webpic-qc.xhscdn.com/979597727776/f92433dac9cac6c76f5a738f5420da11/fixture5139caf5617e32c"
+      ],
+      "video": ""
+    },
+    "meId": "fe7c106f4d7500fbfadf7dd0"
+  },
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "xiaohongshu:note:f39997b0e2da96123df87982",
+        "attributedTo": "xiaohongshu:user:fe7c106f4d7500fbfadf7dd0",
+        "name": "示例文本示例文本示例文本示例文本示😅",
+        "content": "合成笔记\n#Example",
+        "url": "https://www.xiaohongshu.com/explore/f39997b0e2da96123df87982",
+        "published": "2026-11-13T16:13:59.000Z",
+        "updated": "2026-11-13T16:14:00.000Z",
+        "tag": [
+          {
+            "type": "Hashtag",
+            "name": "Example"
+          }
+        ],
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://sns-webpic-qc.xhscdn.com/fixture4f18fa1afd1b31b"
+          },
+          {
+            "type": "Image",
+            "url": "https://sns-webpic-qc.xhscdn.com/fixture5139caf5617e32c"
+          }
+        ]
+      },
+      "downloads": [
+        {
+          "url": "https://sns-webpic-qc.xhscdn.com/fixture4f18fa1afd1b31b",
+          "source": "https://sns-webpic-qc.xhscdn.com/979597727776/fbe18753d244400febf130bdcd414895/fixture4f18fa1afd1b31b"
+        },
+        {
+          "url": "https://sns-webpic-qc.xhscdn.com/fixture5139caf5617e32c",
+          "source": "https://sns-webpic-qc.xhscdn.com/979597727776/f92433dac9cac6c76f5a738f5420da11/fixture5139caf5617e32c"
+        }
+      ]
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "xiaohongshu:user:fe7c106f4d7500fbfadf7dd0",
+        "object": "xiaohongshu:note:f39997b0e2da96123df87982",
+        "published": "2026-11-13T16:13:59.000Z"
+      }
+    }
+  ]
+}

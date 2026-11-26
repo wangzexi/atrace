@@ -1,0 +1,87 @@
+{
+  "kind": "dynamic",
+  "input": {
+    "item": {
+      "id_str": "9255308329793732271",
+      "type": "DYNAMIC_TYPE_FORWARD",
+      "modules": {
+        "module_author": {
+          "mid": 9378066,
+          "name": "示例文本示例",
+          "pub_ts": "1758203733"
+        },
+        "module_dynamic": {
+          "desc": {
+            "text": "转发动态"
+          }
+        }
+      },
+      "orig": {
+        "id_str": "9335421854228493870",
+        "type": "DYNAMIC_TYPE_DRAW",
+        "modules": {
+          "module_author": {
+            "mid": 928081,
+            "name": "示例文本",
+            "pub_ts": "1758108618"
+          },
+          "module_dynamic": {
+            "major": {
+              "draw": {
+                "items": [
+                  {
+                    "src": "http://i0.hdslb.com/fixture83e0/fixture54fe/fd9a8ecbe6ecf7362e7813c99dabeb7850ff3d.png"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "meId": "9378066"
+  },
+  "expected": [
+    {
+      "role": "orig-author",
+      "document": {
+        "type": "Person",
+        "id": "bilibili:user:928081",
+        "url": "https://space.bilibili.com/928081",
+        "name": "示例文本"
+      }
+    },
+    {
+      "role": "orig",
+      "document": {
+        "type": "Note",
+        "id": "bilibili:dynamic:9335421854228493870",
+        "attributedTo": "bilibili:user:928081",
+        "content": "",
+        "url": "https://www.bilibili.com/opus/9335421854228493870",
+        "published": "2025-09-17T11:30:18.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://i0.hdslb.com/fixture83e0/fixture54fe/fd9a8ecbe6ecf7362e7813c99dabeb7850ff3d.png"
+          }
+        ]
+      },
+      "downloads": [
+        "https://i0.hdslb.com/fixture83e0/fixture54fe/fd9a8ecbe6ecf7362e7813c99dabeb7850ff3d.png"
+      ]
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Announce",
+        "id": "bilibili:dynamic:9255308329793732271",
+        "actor": "bilibili:user:9378066",
+        "object": "bilibili:dynamic:9335421854228493870",
+        "url": "https://www.bilibili.com/opus/9255308329793732271",
+        "published": "2025-09-18T13:55:33.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

@@ -1,0 +1,66 @@
+{
+  "kind": "dynamic",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "item": {
+      "id_str": "9822507665303575482",
+      "type": "DYNAMIC_TYPE_DRAW",
+      "modules": {
+        "module_author": {
+          "mid": 9378066,
+          "name": "示例文本示例",
+          "pub_ts": "1758203733"
+        },
+        "module_dynamic": {
+          "desc": {
+            "text": "示 示例文本 示例文本 示例文本示例文本"
+          },
+          "major": {
+            "draw": {
+              "items": [
+                {
+                  "src": "https://i0.hdslb.com/bfs/new_dyn/a.jpg"
+                },
+                {
+                  "src": "https://evil.example/fixture0b03.jpg"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "meId": "9378066"
+  },
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "bilibili:dynamic:9822507665303575482",
+        "attributedTo": "bilibili:user:9378066",
+        "content": "示 示例文本 示例文本 示例文本示例文本",
+        "url": "https://www.bilibili.com/opus/9822507665303575482",
+        "published": "2025-09-18T13:55:33.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://i0.hdslb.com/bfs/new_dyn/a.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://i0.hdslb.com/bfs/new_dyn/a.jpg"
+      ]
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "bilibili:user:9378066",
+        "object": "bilibili:dynamic:9822507665303575482",
+        "published": "2025-09-18T13:55:33.000Z"
+      }
+    }
+  ]
+}

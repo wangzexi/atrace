@@ -1,0 +1,102 @@
+{
+  "kind": "like",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Sun Jun 29 11:50:33 +0000 2014",
+              "name": "示例文本示例文本示",
+              "screen_name": "示例文本示例_示例文"
+            },
+            "id": "fixturead2d18990d5a8",
+            "rest_id": "9564415941"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Wed Oct 21 12:39:08 +0000 2026",
+        "display_text_range": [
+          0,
+          32
+        ],
+        "entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixture7207/status/9114649858932604522/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixturef0f8f745.png",
+              "original_info": {
+                "height": 935,
+                "width": 771
+              },
+              "type": "photo",
+              "url": "https://t.co/fixture6973"
+            }
+          ]
+        },
+        "extended_entities": {
+          "media": [
+            {
+              "expanded_url": "https://x.com/fixture7207/status/9114649858932604522/photo/1",
+              "media_url_https": "https://pbs.twimg.com/media/fixturef0f8f745.png",
+              "original_info": {
+                "height": 935,
+                "width": 771
+              },
+              "type": "photo",
+              "url": "https://t.co/fixture6973"
+            }
+          ]
+        },
+        "full_text": "🫣示例文本示例文本示例文本示例\n示例文本示例文本示例文本示例文本 https://t.co/fixture6973",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "9564415941"
+      },
+      "rest_id": "9114649858932604522"
+    },
+    "me": "9735039867"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9564415941",
+        "url": "https://x.com/示例文本示例_示例文",
+        "name": "示例文本示例文本示"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9114649858932604522",
+        "attributedTo": "x:user:9564415941",
+        "content": "🫣示例文本示例文本示例文本示例\n示例文本示例文本示例文本示例文本",
+        "url": "https://x.com/示例文本示例_示例文/status/9114649858932604522",
+        "published": "2026-10-21T12:39:08.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://pbs.twimg.com/media/fixturef0f8f745.png?name=large",
+            "width": 771,
+            "height": 935
+          }
+        ]
+      }
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "x:user:9735039867",
+        "object": "x:post:9114649858932604522"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

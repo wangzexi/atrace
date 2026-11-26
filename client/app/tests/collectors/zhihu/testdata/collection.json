@@ -1,0 +1,25 @@
+{
+  "kind": "collection",
+  "input": {
+    "folder": {
+      "url": "http://www.zhihu.com/fixturef611/fixtureda8b/fixturefd9b/910985284",
+      "type": "collection",
+      "id": 910985284,
+      "title": "示例文本"
+    },
+    "actor": "zhihu:user:fa6af753e781b9dae342297eaba8c67b"
+  },
+  "expected": [
+    {
+      "role": "collection",
+      "document": {
+        "type": "Collection",
+        "id": "zhihu:collection:910985284",
+        "name": "示例文本",
+        "attributedTo": "zhihu:user:fa6af753e781b9dae342297eaba8c67b",
+        "url": "https://www.zhihu.com/collection/910985284"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

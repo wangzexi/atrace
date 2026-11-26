@@ -1,0 +1,367 @@
+#!/usr/bin/env bun
+'use strict';
+const fs = require('node:fs');
+const { spawn } = require('node:child_process');
+const { createHash } = require('node:crypto');
+const { createInterface } = require('node:readline');
+const { homedir } = require('node:os');
+const { basename, extname, join, resolve } = require('node:path');
+
+const commands = {
+  devices: ['GET', '/admin/devices', ''],
+  people: ['GET', '/admin/people', ''],
+  'person-add': ['POST', '/admin/people', 'NAME [ACCOUNT...]', (name, ...accounts) => ({ name, accounts })],
+  'person-set': ['PUT', '/admin/people/:id', 'ID NAME [ACCOUNT...]', (id, name, ...accounts) => ({ name, accounts })],
+  'person-rm': ['DELETE', '/admin/people/:id', 'ID'],
+  'people-order': ['PUT', '/admin/people/order', 'ID...', (...ids) => ({ people: ids.map(number) })],
+  owner: ['PUT', '/admin/owner', 'ID', person => ({ person: number(person) })],
+  title: ['PUT', '/admin/settings', 'TITLE', title => ({ title })],
+  fetch: ['POST', '/admin/fetch', 'REF', ref => ({ ref })],
+  // edit changes only the fields it is given: --hidden=1|0, --public=1|0, --alias=NAME (empty takes it away).
+  edit: ['PATCH', '/admin/entry/:ref', 'REF [--hidden=0|1] [--public=0|1] [--alias=NAME]', null],
+};
+
+function number(id) {
+  const value = Number(id);
+  if (!/^\d+$/.test(id) || !Number.isSafeInteger(value) || value <= 0) throw Error('ID must be a positive integer');
+  return value;
+}
+function activity(id) { return { activity_id: number(id) }; }
+
+const localRoot = () => resolve(process.env.ATRACE_HOME || join(homedir(), '.atrace'));
+const collectorRoot = () => resolve(process.env.ATRACE_COLLECTORS || join(localRoot(), 'collectors'));
+
+async function runCollector([name, ...flags]) {
+  const usage = '用法：atrace collect <采集器> [--full | --target=ID] [--script=名称]';
+  if (!name || !/^[\w-]+$/.test(name)) throw Error(usage);
+  let script = 'index', target = '', full = false;
+  for (const flag of flags) {
+    if (flag === '--full') full = true;
+    else if (flag.startsWith('--target=')) target = flag.slice(9);
+    else if (flag.startsWith('--script=')) script = flag.slice(9);
+    else throw Error(usage);
+  }
+  if ((target && full) || !/^[\w-]+$/.test(script)) throw Error(usage);
+  const folder = join(collectorRoot(), name);
+  if (!fs.existsSync(join(folder, 'config.json')) || !fs.existsSync(join(folder, script + '.mjs')))
+    throw Error('采集器或脚本不存在：' + name + '/' + script);
+  let config = {};
+  try { config = JSON.parse(fs.readFileSync(join(localRoot(), 'config.json'), 'utf8')); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  const server = process.env.ATRACE_SERVER || process.env.ATRACE_URL || config.server || 'http://127.0.0.1:8183';
+  const local = ['localhost', '127.0.0.1', '[::1]'].includes(new URL(server).hostname);
+  const env = {
+    ...process.env,
+    ATRACE_SERVER: server,
+    ATRACE_HOME: localRoot(),
+    ATRACE_COLLECT_TOKEN: process.env.ATRACE_COLLECT_TOKEN || (local ? config.collectToken : config.remoteCollectToken) || '',
+    ATRACE_TARGET: target,
+    ATRACE_FULL: full ? '1' : '',
+  };
+  delete env.ATRACE_REMOTE_COLLECT_TOKEN;
+  const child = spawn(process.execPath, ['run', script + '.mjs'], { cwd: folder, env, stdio: 'inherit', detached: true });
+  let stopped;
+  let escalation;
+  const signalGroup = (signal) => {
+    if (!child.pid) return;
+    try { process.kill(-child.pid, signal); }
+    catch (error) { if (error.code !== 'ESRCH') throw error; }
+  };
+  const stop = (exitCode) => {
+    if (stopped !== undefined) return;
+    stopped = exitCode;
+    signalGroup('SIGTERM');
+    escalation = setTimeout(() => signalGroup('SIGKILL'), 5_000);
+  };
+  const timeout = setTimeout(() => {
+    console.error('atrace: 采集超过 60 分钟，任务已停止。');
+    stop(124);
+  }, 60 * 60 * 1_000);
+  const interrupt = () => stop(130);
+  const terminate = () => stop(143);
+  process.on('SIGINT', interrupt);
+  process.on('SIGTERM', terminate);
+  try {
+    const code = await new Promise((resolve, reject) => {
+      child.once('error', reject);
+      child.once('close', (code) => resolve(code ?? 1));
+    });
+    process.exitCode = stopped ?? code;
+  } finally {
+    clearTimeout(timeout);
+    clearTimeout(escalation);
+    if (stopped !== undefined) signalGroup('SIGKILL');
+    process.off('SIGINT', interrupt);
+    process.off('SIGTERM', terminate);
+  }
+}
+
+function ownerPassword() {
+  if (process.env.ATRACE_PASSWORD) return process.env.ATRACE_PASSWORD;
+  const file = process.env.ATRACE_PASSWORD_FILE || join(process.env.ATRACE_HOME || join(homedir(), '.atrace'), 'password');
+  try { return fs.readFileSync(file, 'utf8').trim(); }
+  catch (error) { if (process.env.ATRACE_PASSWORD_FILE || error.code !== 'ENOENT') throw error; return ''; }
+}
+
+const serverBase = () => process.env.ATRACE_SERVER || 'http://127.0.0.1:8183';
+
+function ownerHeaders(extra = {}) {
+  const token = ownerPassword();
+  return token ? { Authorization: `Bearer ${token}`, ...extra } : { ...extra };
+}
+
+async function archiveRequest(endpoint, options = {}) {
+  const response = await fetch(new URL(endpoint, serverBase()), {
+    ...options,
+    headers: ownerHeaders(options.headers),
+    redirect: 'error',
+    signal: AbortSignal.timeout(options.method === 'POST' ? 15_000 : 120_000),
+  });
+  if (!response.ok) throw Error(`HTTP ${response.status}: ${(await response.text()).trim()}`);
+  return response;
+}
+
+async function runShell(args) {
+  const run = async (command, cwd) => {
+    const response = await archiveRequest('/api/shell', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ command, cwd }),
+    });
+    const result = await response.json();
+    process.stdout.write(result.stdout);
+    process.stderr.write(result.stderr);
+    return result;
+  };
+  if (args[0] === '--help' || args[0] === '-h') {
+    process.exitCode = (await run('help', '/atrace')).status;
+    return;
+  }
+  if (args.length > 0) {
+    process.exitCode = (await run(args.join(' '), '/atrace')).status;
+    return;
+  }
+  const terminal = Boolean(process.stdin.isTTY);
+  const lines = createInterface({ input: process.stdin, output: process.stderr, terminal });
+  let cwd = '/atrace';
+  const prompt = () => {
+    if (terminal) {
+      lines.setPrompt(`${cwd} $ `);
+      lines.prompt();
+    }
+  };
+  prompt();
+  try {
+    for await (const line of lines) {
+      if (line.trim() === 'exit') break;
+      if (line.trim()) {
+        try {
+          const result = await run(line, cwd);
+          cwd = result.cwd;
+          process.exitCode = result.status;
+        } catch (error) {
+          process.stderr.write(`atrace: ${error.message}\n`);
+          process.exitCode = 1;
+        }
+      }
+      prompt();
+    }
+  } finally {
+    lines.close();
+  }
+}
+
+async function runDownload([path, ...flags]) {
+  const usage = '用法：atrace download </atrace/文件> [--out=目录]';
+  if (!path?.startsWith('/atrace/') || flags.length > 1 || flags.some(flag => !flag.startsWith('--out=')))
+    throw Error(usage);
+  const name = basename(path);
+  if (name === '.' || name === '..' || !name) throw Error(usage);
+  const out = resolve(flags[0]?.slice(6) || process.cwd());
+  const response = await archiveRequest('/api/archive-file?' + new URLSearchParams({ path }));
+  if (!response.body) throw Error('文件下载没有内容');
+  fs.mkdirSync(out, { recursive: true });
+  const file = join(out, name);
+  // The archive can hold large media files. Save the response without buffering it in memory.
+  const { Readable } = require('node:stream');
+  const { pipeline } = require('node:stream/promises');
+  const scratch = fs.mkdtempSync(join(out, '.atrace-download-'));
+  try {
+    const temporary = join(scratch, 'file');
+    await pipeline(Readable.fromWeb(response.body), fs.createWriteStream(temporary));
+    fs.linkSync(temporary, file);
+  } finally {
+    fs.rmSync(scratch, { recursive: true, force: true });
+  }
+  console.log(file);
+}
+
+async function importBlogDrafts([directory, ...rest]) {
+  if (!directory || rest.length) throw Error('用法：atrace blog-drafts <本地 Blog 目录>');
+  if (!ownerPassword()) throw Error('导入草稿需要主人登录密码');
+  const source = resolve(directory);
+  const decoder = new TextDecoder('utf-8', { fatal: true });
+  const readFiles = (folder, relative, files) => {
+    for (const item of fs.readdirSync(folder, { withFileTypes: true })) {
+      if (item.name.startsWith('.')) continue;
+      const local = join(folder, item.name);
+      const path = `${relative}/${item.name}`;
+      if (item.isDirectory()) readFiles(local, path, files);
+      else if (item.isFile() && ['.md', '.txt'].includes(extname(item.name).toLowerCase())) {
+        if (fs.statSync(local).size > 512 * 1024) throw Error(`附件超过 512 KiB：${local}`);
+        files.push({ path, content: decoder.decode(fs.readFileSync(local)) });
+      }
+    }
+  };
+  let missing = 0;
+  let synced = 0;
+  for (const article of fs.readdirSync(source, { withFileTypes: true })) {
+    if (!article.isDirectory() || article.name.startsWith('.')) continue;
+    const folder = join(source, article.name);
+    const readme = join(folder, 'README.md');
+    if (!fs.existsSync(readme) || !fs.lstatSync(readme).isFile()) continue;
+    const markdown = decoder.decode(fs.readFileSync(readme));
+    const frontMatter = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)?.[1];
+    const id = frontMatter?.match(/^id:\s*"?([^"\r\n]*?)"?[ \t]*$/m)?.[1] ||
+      createHash('sha256').update(article.name).digest('hex').slice(0, 12);
+    const files = [];
+    const drafts = join(folder, 'refs', 'drafts');
+    const refs = join(folder, 'refs');
+    if (fs.existsSync(refs) && fs.lstatSync(refs).isDirectory() &&
+        fs.existsSync(drafts) && fs.lstatSync(drafts).isDirectory()) readFiles(drafts, 'refs/drafts', files);
+    const object = 'github:article:' + id;
+    const body = JSON.stringify({ object, files });
+    if (Buffer.byteLength(body) > 2 * 1024 * 1024) throw Error(`附件总量超过请求上限：${article.name}`);
+    const response = await fetch(new URL('/admin/attachments', serverBase()), {
+      method: 'PUT',
+      headers: ownerHeaders({ 'Content-Type': 'application/json' }),
+      body,
+      redirect: 'error',
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (response.status === 404) {
+      if (files.length) {
+        missing++;
+        console.error(`尚未采集成稿：${article.name}`);
+      }
+      continue;
+    }
+    if (!response.ok) throw Error(`HTTP ${response.status}: ${(await response.text()).trim()}`);
+    synced += files.length;
+  }
+  console.log(`同步了 ${synced} 个草稿文件${missing ? `，${missing} 篇文章还未采集` : ''}`);
+  if (missing) process.exitCode = 1;
+}
+
+// edit REF [--hidden=0|1] [--public=0|1] [--alias=NAME]: only the fields given are changed. REF names an entry or a comment.
+async function runEdit(args) {
+  const usage = '用法：atrace edit <REF> [--hidden=0|1] [--public=0|1] [--alias=NAME]';
+  const [ref, ...flags] = args;
+  if (!ref || !/^[\w-]+$/.test(ref)) throw Error(usage);
+  const body = {};
+  for (const flag of flags) {
+    const match = /^--(hidden|public|alias)=(.*)$/s.exec(flag);
+    if (!match) throw Error(usage);
+    const [, field, value] = match;
+    if (field === 'alias') body.alias = value;
+    else if (value === '0' || value === '1') body[field] = value === '1';
+    else throw Error(`--${field} 只能是 0 或 1`);
+  }
+  if (Object.keys(body).length === 0) throw Error(usage);
+  const response = await fetch(`${serverBase()}/admin/entry/${ref}`, {
+    method: 'PATCH',
+    headers: ownerHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify(body),
+    redirect: 'error',
+    signal: AbortSignal.timeout(30_000),
+  });
+  const text = await response.text();
+  if (!response.ok) throw Error(`HTTP ${response.status}${text ? `: ${text.trim()}` : ''}`);
+  process.stdout.write(`${text.trim()}\n`);
+}
+
+async function main([name, ...args]) {
+  if (name === 'collect') return runCollector(args);
+  if (name === 'edit') return runEdit(args);
+  if (name === 'person') {
+    // person add|set|rm: the same as person-add, person-set, person-rm.
+    const [sub, ...rest] = args;
+    if (!['add', 'set', 'rm'].includes(sub)) throw Error('用法：atrace person add|set|rm ...');
+    return main([`person-${sub === 'rm' ? 'rm' : sub}`, ...rest]);
+  }
+  if (name === 'sh') return runShell(args);
+  if (name === 'blog-drafts') return importBlogDrafts(args);
+  if (name === 'download') return runDownload(args);
+  if (!name || ['--help', '-h', 'help'].includes(name)) {
+    const list = Object.entries(commands).map(([key, [method, path, usage]]) =>
+      `  ${key}${usage ? ` ${usage}` : ''}${method === 'GET' && path.startsWith('/admin/') ? ' [--key=value ...]' : ''}`);
+    const bundledExamples = join(import.meta.dir, 'examples');
+    const examples = fs.existsSync(bundledExamples)
+      ? bundledExamples
+      : join(import.meta.dir, 'collector-examples');
+    const collectors = collectorRoot();
+    console.log(`用法：atrace COMMAND [ARGS]
+
+直接连接 Atrace Server，无需启动 App 或采集器。App 内置 CLI 已携带运行环境；独立脚本需要 Bun 1.4.2+。
+
+命令：
+${list.join('\n')}
+  sh ['命令']                  浏览和搜索虚拟档案，atrace sh --help 查看可用命令
+  download </atrace/文件> [--out=目录]  下载虚拟档案里的文件
+  blog-drafts <本地 Blog 目录>         同步已采集文章的私人草稿
+
+编写采集器：
+  参考目录：${examples}
+  采集器目录：${collectors}
+  先读参考目录里的 AGENTS.md，复制最接近的示例到采集器目录再修改。
+  App 自动读取各采集器目录的 config.json，不需要注册或重启。
+  atrace collect <采集器> [--full | --target=ID] [--script=名称]  手动运行本机已安装的采集器
+
+连接与认证：
+  ATRACE_HOME              本机工作目录，默认 ~/.atrace
+  ATRACE_SERVER            服务端地址，默认 http://127.0.0.1:8183
+  ATRACE_PASSWORD       网页登录密码，同时用于管理接口
+  ATRACE_PASSWORD_FILE  密码文件，默认 ~/.atrace/password
+
+示例：
+  atrace sh 'grep -rn "关键词" /atrace'
+  atrace edit k7x2m9ab --public=1  公开一条（--public=0 取消公开）
+  atrace edit k7x2m9ab --hidden=1  删掉一条或一条评论（--hidden=0 恢复）
+  atrace title 'My Notes'
+
+REF 是条目或评论的网页标识，也是虚拟档案中的条目目录名。成功结果写入标准输出；失败写入标准错误并返回非零状态。CLI 不跟随重定向。`);
+    return;
+  }
+  if (!Object.hasOwn(commands, name)) throw Error(`Unknown command: ${name}`);
+  const [method, path, usage, input] = commands[name];
+  const read = method === 'GET' && path.startsWith('/admin/');
+  const query = new URLSearchParams();
+  if (read) args = args.filter(arg => {
+    const match = /^--([\w-]+)=(.*)$/s.exec(arg);
+    if (!match) return true;
+    query.set(match[1].replaceAll('-', '_'), match[2]);
+    return false;
+  });
+  const fields = usage.split(' ').filter(Boolean);
+  const required = fields.filter(field => !field.startsWith('[')).length;
+  if (args.length < required || (!usage.endsWith('...]') && args.length > required)) throw Error(`Usage: atrace ${name} ${usage}`);
+  const url = new URL(path.includes(':id') ? path.replace(':id', String(number(args[0]))) : path,
+    process.env.ATRACE_SERVER || 'http://127.0.0.1:8183');
+  if (typeof input === 'string' && args.length) query.set(input, args[0]);
+  url.search = query.toString();
+  const headers = {};
+  let token = process.env.ATRACE_PASSWORD;
+  if (!token) {
+    const file = process.env.ATRACE_PASSWORD_FILE || join(process.env.ATRACE_HOME || join(homedir(), '.atrace'), 'password');
+    try { token = fs.readFileSync(file, 'utf8').trim(); }
+    catch (error) { if (process.env.ATRACE_PASSWORD_FILE || error.code !== 'ENOENT') throw error; }
+  }
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const body = typeof input === 'function' ? JSON.stringify(input(...args)) : undefined;
+  if (body !== undefined) headers['Content-Type'] = 'application/json';
+  const response = await fetch(url, { method, headers, body, redirect: 'error', signal: AbortSignal.timeout(30_000) });
+  const text = await response.text();
+  if (!response.ok) throw Error(`HTTP ${response.status}${text ? `: ${text.trim()}` : ''}`);
+  if (text) process.stdout.write(text.endsWith('\n') ? text : `${text}\n`);
+}
+main(process.argv.slice(2)).catch(error => { console.error(`atrace: ${error.message}`); process.exitCode = 1; });

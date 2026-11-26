@@ -1,0 +1,45 @@
+{
+  "kind": "star",
+  "note": "Synthetic fixture; no real account, repository or activity data.",
+  "input": {
+    "meLogin": "example-user",
+    "item": {
+      "href": "/example-user-two/bare.repo",
+      "description": "",
+      "language": "",
+      "topics": [],
+      "updated": ""
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "github:user:example-user-two",
+        "name": "example-user-two",
+        "url": "https://github.com/example-user-two"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:repo:example-user-two/bare.repo",
+        "attributedTo": "github:user:example-user-two",
+        "name": "example-user-two/bare.repo",
+        "url": "https://github.com/example-user-two/bare.repo"
+      },
+      "downloads": []
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Add",
+        "actor": "github:user:example-user",
+        "object": "github:repo:example-user-two/bare.repo",
+        "target": "github:star:example-user"
+      }
+    }
+  ]
+}

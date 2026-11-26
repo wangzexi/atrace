@@ -1,0 +1,58 @@
+{
+  "kind": "video",
+  "input": {
+    "video": {
+      "bvid": "BV1827ce36c2",
+      "title": "示例文本示例文本，示例文本示例文本示例文，示例文本示例文？",
+      "desc": "-",
+      "pic": "http://i2.hdslb.com/fixture83e0/fixturefd96/f4d0d31e36feee5f95aa0e73a878299523b3eaf0.jpg",
+      "pubdate": 1782210545,
+      "owner": {
+        "mid": 918659841,
+        "name": "示例文本示例"
+      }
+    },
+    "mode": "like",
+    "meId": "9378066"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "bilibili:user:918659841",
+        "url": "https://space.bilibili.com/918659841",
+        "name": "示例文本示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Video",
+        "id": "bilibili:video:BV1827ce36c2",
+        "attributedTo": "bilibili:user:918659841",
+        "name": "示例文本示例文本，示例文本示例文本示例文，示例文本示例文？",
+        "url": "https://www.bilibili.com/video/BV1827ce36c2",
+        "published": "2026-06-23T10:29:05.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://i2.hdslb.com/fixture83e0/fixturefd96/f4d0d31e36feee5f95aa0e73a878299523b3eaf0.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://i2.hdslb.com/fixture83e0/fixturefd96/f4d0d31e36feee5f95aa0e73a878299523b3eaf0.jpg"
+      ]
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "bilibili:user:9378066",
+        "object": "bilibili:video:BV1827ce36c2"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

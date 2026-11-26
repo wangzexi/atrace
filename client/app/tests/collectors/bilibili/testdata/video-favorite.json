@@ -1,0 +1,63 @@
+{
+  "kind": "video",
+  "input": {
+    "video": {
+      "bvid": "BV15a706b2f9",
+      "type": 2,
+      "title": "示例文本示例文本？示例文本示例文？【示例文本示.示】",
+      "intro": "示例文本示例文本！\n示例文本示例文本示例：\n示例文本示例文本示例文本？【示例文本示】https://www.bilibili.com/video/BV103bbe5ec2\n示例文本示例文本示例？https://www.bilibili.com/video/BV17b2a21e4b\n“示例文本”示例文本示例文本？【示例文本示】https://www.bilibili.com/video/BV119033ea6d",
+      "cover": "http://i1.hdslb.com/fixture83e0/fixturefd96/fc0274f2d0b67d571a862cf3b8d0583201762c32.jpg",
+      "pubtime": 1792323864,
+      "fav_time": 1792822837,
+      "upper": {
+        "mid": 9204153541440384,
+        "name": "示例文本示"
+      }
+    },
+    "mode": "favorite",
+    "meId": "9378066"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "bilibili:user:9204153541440384",
+        "url": "https://space.bilibili.com/9204153541440384",
+        "name": "示例文本示"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Video",
+        "id": "bilibili:video:BV15a706b2f9",
+        "attributedTo": "bilibili:user:9204153541440384",
+        "name": "示例文本示例文本？示例文本示例文？【示例文本示.示】",
+        "summary": "示例文本示例文本！\n示例文本示例文本示例：\n示例文本示例文本示例文本？【示例文本示】https://www.bilibili.com/video/BV103bbe5ec2\n示例文本示例文本示例？https://www.bilibili.com/video/BV17b2a21e4b\n“示例文本”示例文本示例文本？【示例文本示】https://www.bilibili.com/video/BV119033ea6d",
+        "url": "https://www.bilibili.com/video/BV15a706b2f9",
+        "published": "2026-10-18T11:44:24.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://i1.hdslb.com/fixture83e0/fixturefd96/fc0274f2d0b67d571a862cf3b8d0583201762c32.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://i1.hdslb.com/fixture83e0/fixturefd96/fc0274f2d0b67d571a862cf3b8d0583201762c32.jpg"
+      ]
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Add",
+        "actor": "bilibili:user:9378066",
+        "object": "bilibili:video:BV15a706b2f9",
+        "target": "bilibili:collection:1",
+        "published": "2026-10-24T06:20:37.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

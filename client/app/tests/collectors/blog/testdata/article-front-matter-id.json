@@ -1,0 +1,34 @@
+{
+  "kind": "article",
+  "note": "Synthetic fixture; no real account, post, activity or media data.",
+  "input": {
+    "directory": "my post",
+    "source": "---\nid: \"abc123\"\ncreated_at: \"2026-01-02 03:04:05 +0800\"\nupdated_at: \"2026-02-03 04:05:06 +0000\"\n---\n# A title\n\nBody\n"
+  },
+  "expectedImages": [],
+  "expected": [
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "github:article:abc123",
+        "name": "A title",
+        "attributedTo": "github:user:example",
+        "mediaType": "text/markdown",
+        "content": "Body",
+        "url": "https://github.com/example/blog/tree/main/my%20post",
+        "published": "2026-01-01T19:04:05.000Z",
+        "updated": "2026-02-03T04:05:06.000Z"
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "github:user:example",
+        "object": "github:article:abc123",
+        "published": "2026-01-01T19:04:05.000Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "kind": "tweet",
+  "input": {
+    "tweet": {
+      "__typename": "Tweet",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "core": {
+              "created_at": "Fri May 30 09:49:55 +0000 2014",
+              "name": "示例文本",
+              "screen_name": "示例文本示例文本示例"
+            },
+            "id": "fixture4bb65dbb28359",
+            "rest_id": "9894508824"
+          }
+        }
+      },
+      "legacy": {
+        "created_at": "Sun Aug 09 15:20:35 +0000 2026",
+        "display_text_range": [
+          0,
+          106
+        ],
+        "entities": {},
+        "full_text": "示例文本示例文本示例文本示例文本示例，示例 示例文本 示例文本示例文本，示例文 示例文本示例文本示例文本，示例文本示例文本示例 示例文本 示例，示例文本示例文本示例文本示例文本示例文本，示例文本示 示例% 示例。",
+        "is_quote_status": false,
+        "retweeted": false,
+        "user_id_str": "9894508824"
+      },
+      "rest_id": "9102246970162080446"
+    },
+    "me": "9735039867"
+  },
+  "expectedKind": "context",
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "x:user:9894508824",
+        "url": "https://x.com/示例文本示例文本示例",
+        "name": "示例文本"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "x:post:9102246970162080446",
+        "attributedTo": "x:user:9894508824",
+        "content": "示例文本示例文本示例文本示例文本示例，示例 示例文本 示例文本示例文本，示例文 示例文本示例文本示例文本，示例文本示例文本示例 示例文本 示例，示例文本示例文本示例文本示例文本示例文本，示例文本示 示例% 示例。",
+        "url": "https://x.com/示例文本示例文本示例/status/9102246970162080446",
+        "published": "2026-08-09T15:20:35.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

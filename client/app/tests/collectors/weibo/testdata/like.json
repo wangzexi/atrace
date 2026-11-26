@@ -1,0 +1,760 @@
+{
+  "kind": "like",
+  "input": {
+    "status": {
+      "created_at": "Mon Aug 17 11:44:16 +0800 2026",
+      "id": 9857836571263846,
+      "idstr": "9857836571263846",
+      "mblogid": "fixture99e4",
+      "user": {
+        "id": 9651126337,
+        "idstr": "9651126337",
+        "screen_name": "示例文本示例"
+      },
+      "source": "示例文本示例 示例 示例文",
+      "pic_num": 18,
+      "pic_infos": {
+        "fixture2eecc67238128b9": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixture2eecc67238128b9.jpg",
+            "width": 240,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixture2eecc67238128b9.jpg",
+            "width": 960,
+            "height": 1440,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixture2eecc67238128b9.jpg",
+            "width": 1080,
+            "height": 1620,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixture2eecc67238128b9.jpg",
+            "width": 2048,
+            "height": 3072,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixture2eecc67238128b9.jpg",
+            "width": 2000,
+            "height": 3000,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixture8233aaedbdf8dc6": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixture8233aaedbdf8dc6.jpg",
+            "width": 245,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixture8233aaedbdf8dc6.jpg",
+            "width": 960,
+            "height": 1409,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixture8233aaedbdf8dc6.jpg",
+            "width": 1080,
+            "height": 1585,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixture8233aaedbdf8dc6.jpg",
+            "width": 2048,
+            "height": 3007,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixture8233aaedbdf8dc6.jpg",
+            "width": 2000,
+            "height": 2937,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixture8aa7a2ee67ed5e3": {
+          "bmiddle": {
+            "url": "https://wx2.sinaimg.cn/wap360/fixture8aa7a2ee67ed5e3.jpg",
+            "width": 360,
+            "height": 240,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx2.sinaimg.cn/fixturee996/fixture8aa7a2ee67ed5e3.jpg",
+            "width": 1440,
+            "height": 960,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx2.sinaimg.cn/fixture4ff9/fixture8aa7a2ee67ed5e3.jpg",
+            "width": 1620,
+            "height": 1080,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx2.sinaimg.cn/large/fixture8aa7a2ee67ed5e3.jpg",
+            "width": 2048,
+            "height": 1365,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx2.sinaimg.cn/fixture0967/fixture8aa7a2ee67ed5e3.jpg",
+            "width": 2000,
+            "height": 1333,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixturea44c269af461353": {
+          "bmiddle": {
+            "url": "https://wx3.sinaimg.cn/wap360/fixturea44c269af461353.jpg",
+            "width": 240,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx3.sinaimg.cn/fixturee996/fixturea44c269af461353.jpg",
+            "width": 960,
+            "height": 1440,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx3.sinaimg.cn/fixture4ff9/fixturea44c269af461353.jpg",
+            "width": 1080,
+            "height": 1620,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx3.sinaimg.cn/large/fixturea44c269af461353.jpg",
+            "width": 2048,
+            "height": 3072,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx3.sinaimg.cn/fixture0967/fixturea44c269af461353.jpg",
+            "width": 2000,
+            "height": 3000,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixture90816aa5e1f76dd": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixture90816aa5e1f76dd.jpg",
+            "width": 270,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixture90816aa5e1f76dd.jpg",
+            "width": 960,
+            "height": 1279,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixture90816aa5e1f76dd.jpg",
+            "width": 1080,
+            "height": 1439,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixture90816aa5e1f76dd.jpg",
+            "width": 2048,
+            "height": 2730,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixture90816aa5e1f76dd.jpg",
+            "width": 2000,
+            "height": 2666,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture2c8b19d32b175b2": {
+          "bmiddle": {
+            "url": "https://wx2.sinaimg.cn/wap360/fixture2c8b19d32b175b2.jpg",
+            "width": 240,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx2.sinaimg.cn/fixturee996/fixture2c8b19d32b175b2.jpg",
+            "width": 960,
+            "height": 1440,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx2.sinaimg.cn/fixture4ff9/fixture2c8b19d32b175b2.jpg",
+            "width": 1080,
+            "height": 1620,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx2.sinaimg.cn/large/fixture2c8b19d32b175b2.jpg",
+            "width": 2048,
+            "height": 3072,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx2.sinaimg.cn/fixture0967/fixture2c8b19d32b175b2.jpg",
+            "width": 2000,
+            "height": 3000,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixturef11a2b2e1ebad73": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixturef11a2b2e1ebad73.jpg",
+            "width": 271,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixturef11a2b2e1ebad73.jpg",
+            "width": 960,
+            "height": 1275,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixturef11a2b2e1ebad73.jpg",
+            "width": 1080,
+            "height": 1434,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixturef11a2b2e1ebad73.jpg",
+            "width": 2048,
+            "height": 2720,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixturef11a2b2e1ebad73.jpg",
+            "width": 2000,
+            "height": 2657,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixture77bdd1e8c8c6d10": {
+          "bmiddle": {
+            "url": "https://wx2.sinaimg.cn/wap360/fixture77bdd1e8c8c6d10.jpg",
+            "width": 360,
+            "height": 269,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx2.sinaimg.cn/fixturee996/fixture77bdd1e8c8c6d10.jpg",
+            "width": 1280,
+            "height": 960,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx2.sinaimg.cn/fixture4ff9/fixture77bdd1e8c8c6d10.jpg",
+            "width": 1440,
+            "height": 1080,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx2.sinaimg.cn/large/fixture77bdd1e8c8c6d10.jpg",
+            "width": 2048,
+            "height": 1536,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx2.sinaimg.cn/fixture0967/fixture77bdd1e8c8c6d10.jpg",
+            "width": 2000,
+            "height": 1500,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture1cee51541cf7a60": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixture1cee51541cf7a60.jpg",
+            "width": 271,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixture1cee51541cf7a60.jpg",
+            "width": 960,
+            "height": 1275,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixture1cee51541cf7a60.jpg",
+            "width": 1080,
+            "height": 1434,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixture1cee51541cf7a60.jpg",
+            "width": 2048,
+            "height": 2720,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixture1cee51541cf7a60.jpg",
+            "width": 2000,
+            "height": 2657,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixturebada0bb34187ff0": {
+          "bmiddle": {
+            "url": "https://wx1.sinaimg.cn/wap360/fixturebada0bb34187ff0.jpg",
+            "width": 360,
+            "height": 269,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx1.sinaimg.cn/fixturee996/fixturebada0bb34187ff0.jpg",
+            "width": 1280,
+            "height": 960,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx1.sinaimg.cn/fixture4ff9/fixturebada0bb34187ff0.jpg",
+            "width": 1440,
+            "height": 1080,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx1.sinaimg.cn/large/fixturebada0bb34187ff0.jpg",
+            "width": 2048,
+            "height": 1536,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx1.sinaimg.cn/fixture0967/fixturebada0bb34187ff0.jpg",
+            "width": 2000,
+            "height": 1500,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixtureb13cd03663010bc": {
+          "bmiddle": {
+            "url": "https://wx3.sinaimg.cn/wap360/fixtureb13cd03663010bc.jpg",
+            "width": 270,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx3.sinaimg.cn/fixturee996/fixtureb13cd03663010bc.jpg",
+            "width": 960,
+            "height": 1279,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx3.sinaimg.cn/fixture4ff9/fixtureb13cd03663010bc.jpg",
+            "width": 1080,
+            "height": 1439,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx3.sinaimg.cn/large/fixtureb13cd03663010bc.jpg",
+            "width": 2048,
+            "height": 2730,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx3.sinaimg.cn/fixture0967/fixtureb13cd03663010bc.jpg",
+            "width": 2000,
+            "height": 2666,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixturec80a7bdef981f10": {
+          "bmiddle": {
+            "url": "https://wx2.sinaimg.cn/wap360/fixturec80a7bdef981f10.jpg",
+            "width": 270,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx2.sinaimg.cn/fixturee996/fixturec80a7bdef981f10.jpg",
+            "width": 960,
+            "height": 1279,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx2.sinaimg.cn/fixture4ff9/fixturec80a7bdef981f10.jpg",
+            "width": 1080,
+            "height": 1439,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx2.sinaimg.cn/large/fixturec80a7bdef981f10.jpg",
+            "width": 2048,
+            "height": 2730,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx2.sinaimg.cn/fixture0967/fixturec80a7bdef981f10.jpg",
+            "width": 2000,
+            "height": 2666,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture344a5f41f0cae76": {
+          "bmiddle": {
+            "url": "https://wx2.sinaimg.cn/wap360/fixture344a5f41f0cae76.jpg",
+            "width": 270,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx2.sinaimg.cn/fixturee996/fixture344a5f41f0cae76.jpg",
+            "width": 960,
+            "height": 1279,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx2.sinaimg.cn/fixture4ff9/fixture344a5f41f0cae76.jpg",
+            "width": 1080,
+            "height": 1439,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx2.sinaimg.cn/large/fixture344a5f41f0cae76.jpg",
+            "width": 2048,
+            "height": 2730,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx2.sinaimg.cn/fixture0967/fixture344a5f41f0cae76.jpg",
+            "width": 2000,
+            "height": 2666,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture8a4b4e462f2825e": {
+          "bmiddle": {
+            "url": "https://wx3.sinaimg.cn/wap360/fixture8a4b4e462f2825e.jpg",
+            "width": 360,
+            "height": 269,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx3.sinaimg.cn/fixturee996/fixture8a4b4e462f2825e.jpg",
+            "width": 1280,
+            "height": 960,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx3.sinaimg.cn/fixture4ff9/fixture8a4b4e462f2825e.jpg",
+            "width": 1440,
+            "height": 1080,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx3.sinaimg.cn/large/fixture8a4b4e462f2825e.jpg",
+            "width": 2048,
+            "height": 1536,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx3.sinaimg.cn/fixture0967/fixture8a4b4e462f2825e.jpg",
+            "width": 2000,
+            "height": 1500,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture61c8062fc15ea5e": {
+          "bmiddle": {
+            "url": "https://wx3.sinaimg.cn/wap360/fixture61c8062fc15ea5e.jpg",
+            "width": 270,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx3.sinaimg.cn/fixturee996/fixture61c8062fc15ea5e.jpg",
+            "width": 960,
+            "height": 1279,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx3.sinaimg.cn/fixture4ff9/fixture61c8062fc15ea5e.jpg",
+            "width": 1080,
+            "height": 1439,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx3.sinaimg.cn/large/fixture61c8062fc15ea5e.jpg",
+            "width": 2048,
+            "height": 2730,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx3.sinaimg.cn/fixture0967/fixture61c8062fc15ea5e.jpg",
+            "width": 2000,
+            "height": 2666,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture515f8b5fd6cbd19": {
+          "bmiddle": {
+            "url": "https://wx2.sinaimg.cn/wap360/fixture515f8b5fd6cbd19.jpg",
+            "width": 360,
+            "height": 269,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx2.sinaimg.cn/fixturee996/fixture515f8b5fd6cbd19.jpg",
+            "width": 1280,
+            "height": 960,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx2.sinaimg.cn/fixture4ff9/fixture515f8b5fd6cbd19.jpg",
+            "width": 1440,
+            "height": 1080,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx2.sinaimg.cn/large/fixture515f8b5fd6cbd19.jpg",
+            "width": 2048,
+            "height": 1536,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx2.sinaimg.cn/fixture0967/fixture515f8b5fd6cbd19.jpg",
+            "width": 2000,
+            "height": 1500,
+            "type": null
+          },
+          "type": "livephoto"
+        },
+        "fixture80522c4641a0274": {
+          "bmiddle": {
+            "url": "https://wx3.sinaimg.cn/wap360/fixture80522c4641a0274.jpg",
+            "width": 257,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx3.sinaimg.cn/fixturee996/fixture80522c4641a0274.jpg",
+            "width": 960,
+            "height": 1340,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx3.sinaimg.cn/fixture4ff9/fixture80522c4641a0274.jpg",
+            "width": 1080,
+            "height": 1507,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx3.sinaimg.cn/large/fixture80522c4641a0274.jpg",
+            "width": 2048,
+            "height": 2859,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx3.sinaimg.cn/fixture0967/fixture80522c4641a0274.jpg",
+            "width": 2000,
+            "height": 2792,
+            "type": null
+          },
+          "type": "pic"
+        },
+        "fixtureadc7b034168d189": {
+          "bmiddle": {
+            "url": "https://wx4.sinaimg.cn/wap360/fixtureadc7b034168d189.jpg",
+            "width": 270,
+            "height": 360,
+            "type": null
+          },
+          "large": {
+            "url": "https://wx4.sinaimg.cn/fixturee996/fixtureadc7b034168d189.jpg",
+            "width": 960,
+            "height": 1279,
+            "type": null
+          },
+          "original": {
+            "url": "https://wx4.sinaimg.cn/fixture4ff9/fixtureadc7b034168d189.jpg",
+            "width": 1080,
+            "height": 1439,
+            "type": null
+          },
+          "largest": {
+            "url": "https://wx4.sinaimg.cn/large/fixtureadc7b034168d189.jpg",
+            "width": 2048,
+            "height": 2730,
+            "type": null
+          },
+          "mw2000": {
+            "url": "https://wx4.sinaimg.cn/fixture0967/fixtureadc7b034168d189.jpg",
+            "width": 2000,
+            "height": 2666,
+            "type": null
+          },
+          "type": "livephoto"
+        }
+      },
+      "fixturef0303e74ba": false,
+      "fixture622cb90eef": false,
+      "fixturea4a41b3d8": false,
+      "text": "示例文本示例文✅ ​​​",
+      "text_raw": "示例文本示例文✅ ​​​"
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "weibo:user:9651126337",
+        "url": "https://weibo.com/u/9651126337",
+        "name": "示例文本示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "weibo:post:9857836571263846",
+        "attributedTo": "weibo:user:9651126337",
+        "content": "示例文本示例文✅ ​​​",
+        "url": "https://weibo.com/9651126337/fixture99e4",
+        "published": "2026-08-17T03:44:16.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixture2eecc67238128b9.jpg",
+            "width": 2048,
+            "height": 3072
+          },
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixture8233aaedbdf8dc6.jpg",
+            "width": 2048,
+            "height": 3007
+          },
+          {
+            "type": "Image",
+            "url": "https://wx2.sinaimg.cn/large/fixture8aa7a2ee67ed5e3.jpg",
+            "width": 2048,
+            "height": 1365
+          },
+          {
+            "type": "Image",
+            "url": "https://wx3.sinaimg.cn/large/fixturea44c269af461353.jpg",
+            "width": 2048,
+            "height": 3072
+          },
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixture90816aa5e1f76dd.jpg",
+            "width": 2048,
+            "height": 2730
+          },
+          {
+            "type": "Image",
+            "url": "https://wx2.sinaimg.cn/large/fixture2c8b19d32b175b2.jpg",
+            "width": 2048,
+            "height": 3072
+          },
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixturef11a2b2e1ebad73.jpg",
+            "width": 2048,
+            "height": 2720
+          },
+          {
+            "type": "Image",
+            "url": "https://wx2.sinaimg.cn/large/fixture77bdd1e8c8c6d10.jpg",
+            "width": 2048,
+            "height": 1536
+          },
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixture1cee51541cf7a60.jpg",
+            "width": 2048,
+            "height": 2720
+          },
+          {
+            "type": "Image",
+            "url": "https://wx1.sinaimg.cn/large/fixturebada0bb34187ff0.jpg",
+            "width": 2048,
+            "height": 1536
+          },
+          {
+            "type": "Image",
+            "url": "https://wx3.sinaimg.cn/large/fixtureb13cd03663010bc.jpg",
+            "width": 2048,
+            "height": 2730
+          },
+          {
+            "type": "Image",
+            "url": "https://wx2.sinaimg.cn/large/fixturec80a7bdef981f10.jpg",
+            "width": 2048,
+            "height": 2730
+          },
+          {
+            "type": "Image",
+            "url": "https://wx2.sinaimg.cn/large/fixture344a5f41f0cae76.jpg",
+            "width": 2048,
+            "height": 2730
+          },
+          {
+            "type": "Image",
+            "url": "https://wx3.sinaimg.cn/large/fixture8a4b4e462f2825e.jpg",
+            "width": 2048,
+            "height": 1536
+          },
+          {
+            "type": "Image",
+            "url": "https://wx3.sinaimg.cn/large/fixture61c8062fc15ea5e.jpg",
+            "width": 2048,
+            "height": 2730
+          },
+          {
+            "type": "Image",
+            "url": "https://wx2.sinaimg.cn/large/fixture515f8b5fd6cbd19.jpg",
+            "width": 2048,
+            "height": 1536
+          },
+          {
+            "type": "Image",
+            "url": "https://wx3.sinaimg.cn/large/fixture80522c4641a0274.jpg",
+            "width": 2048,
+            "height": 2859
+          },
+          {
+            "type": "Image",
+            "url": "https://wx4.sinaimg.cn/large/fixtureadc7b034168d189.jpg",
+            "width": 2048,
+            "height": 2730
+          }
+        ]
+      }
+    },
+    {
+      "role": "activity",
+      "document": {
+        "type": "Like",
+        "actor": "weibo:user:1000000001",
+        "object": "weibo:post:9857836571263846"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

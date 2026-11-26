@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atrace 档案终端</title>
+<style>
+:root{color-scheme:light dark;font:16px system-ui}body{margin:0;padding:clamp(1rem,4vw,3rem);max-width:64rem;margin-inline:auto}a{color:inherit}h1{font-size:1.3rem}pre,input,button,output{font:inherit}pre,input,output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}pre{min-height:45vh;max-height:65vh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:1rem;background:color-mix(in srgb,CanvasText 6%,Canvas);border-radius:.5rem}form{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}input{flex:1;min-width:12rem;padding:.55rem}button{padding:.55rem .8rem}nav{display:flex;justify-content:space-between}
+</style>
+<nav><a href="/">Atrace</a><a href="/terminal.md">目录说明</a></nav>
+<h1>档案终端</h1>
+<pre id="output" role="log" aria-label="命令输出"></pre>
+<form>
+<output id="cwd">/atrace</output>
+<input aria-label="命令" placeholder="ls" autocomplete="off" spellcheck="false" required>
+<button>运行</button>
+</form>
+<script>
+const form = document.querySelector('form');
+const input = form.querySelector('input');
+const button = form.querySelector('button');
+const cwd = document.querySelector('#cwd');
+const output = document.querySelector('#output');
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const command = input.value.trim();
+  if (!command || button.disabled) return;
+  button.disabled = true;
+  input.value = '';
+  output.append(document.createTextNode(cwd.value + ' $ ' + command + '\n'));
+  try {
+    const response = await fetch('/api/shell', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({command, cwd: cwd.value})
+    });
+    if (!response.ok) throw new Error(await response.text());
+    const result = await response.json();
+    cwd.value = result.cwd;
+    output.append(document.createTextNode(result.stdout + result.stderr));
+  } catch (error) {
+    output.append(document.createTextNode(error.message + '\n'));
+  } finally {
+    while (output.childNodes.length > 100) output.firstChild.remove();
+    output.scrollTop = output.scrollHeight;
+    button.disabled = false;
+    input.focus();
+  }
+});
+</script>
+</html>

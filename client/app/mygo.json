@@ -1,0 +1,17 @@
+{
+  "name": "Atrace",
+  "slug": "atrace",
+  "identifier": "me.zexi.atrace",
+  "version": "0.2.0",
+  "out": "build",
+  "resources": [
+    "build/runtime/bin",
+    "build/runtime/cli.mjs",
+    "build/runtime/examples"
+  ],
+  "macos": {
+    "infoPlist": {
+      "LSUIElement": true
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "kind": "content",
+  "input": {
+    "entry": {
+      "id": "991344010",
+      "type": "article",
+      "title": "示、示、示、示、示、示…示例文本？",
+      "author": {
+        "id": "fa554566bba3673e403311ba87c993b2",
+        "name": "示例"
+      },
+      "created": 1708591130,
+      "updated": 1708591130
+    },
+    "body": {
+      "content": "示例文本示例，示例文，\n示例文本示例文本示例文本示例文！\n\n示例文本示例文本示例文本：\n示例文本示，示例文本示例，示例文本？\n示例文、示、示、示、示、示例文，\n示例文本示例文本示？\n\n示例，示例文本示例文本示例文本示例：\n示例文本示例文 示例 示，示例文本示例文！",
+      "attachment": [
+        {
+          "type": "Image",
+          "url": "https://pic1.zhimg.com/fixture5698f60036b3c4f.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic2.zhimg.com/fixture9c5594f51369c6d.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic1.zhimg.com/fixtureb229ed3685925ee.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic3.zhimg.com/fixture9c08a8502c93b7d.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic3.zhimg.com/fixture82c074806cb683b.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic1.zhimg.com/fixturee94c9aec6fcdd70.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic1.zhimg.com/fixtureda0a5766b601bcd.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pica.zhimg.com/fixturef31c87de33c6cc5.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic1.zhimg.com/fixture2d0c13f8b2bb57f.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic4.zhimg.com/fixture1f6eae3605967b4.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://picx.zhimg.com/fixture59b6fc08e7d913f.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://picx.zhimg.com/fixtureab3b8f2878e7f08.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pica.zhimg.com/fixture710290134cda968.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://pic3.zhimg.com/fixturee7c0f233bd1b650.jpg"
+        },
+        {
+          "type": "Image",
+          "url": "https://picx.zhimg.com/fixturebaec2999047a345.jpg"
+        }
+      ]
+    },
+    "actor": "zhihu:user:fa6af753e781b9dae342297eaba8c67b"
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "zhihu:user:fa554566bba3673e403311ba87c993b2",
+        "name": "示例"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Article",
+        "id": "zhihu:article:991344010",
+        "name": "示、示、示、示、示、示…示例文本？",
+        "content": "示例文本示例，示例文，\n示例文本示例文本示例文本示例文！\n\n示例文本示例文本示例文本：\n示例文本示，示例文本示例，示例文本？\n示例文、示、示、示、示、示例文，\n示例文本示例文本示？\n\n示例，示例文本示例文本示例文本示例：\n示例文本示例文 示例 示，示例文本示例文！",
+        "url": "https://zhuanlan.zhihu.com/p/991344010",
+        "attributedTo": "zhihu:user:fa554566bba3673e403311ba87c993b2",
+        "published": "2024-02-22T08:38:50.000Z",
+        "updated": "2024-02-22T08:38:50.000Z",
+        "attachment": [
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture5698f60036b3c4f.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture9c5594f51369c6d.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixtureb229ed3685925ee.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture9c08a8502c93b7d.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture82c074806cb683b.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixturee94c9aec6fcdd70.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixtureda0a5766b601bcd.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixturef31c87de33c6cc5.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture2d0c13f8b2bb57f.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture1f6eae3605967b4.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture59b6fc08e7d913f.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixtureab3b8f2878e7f08.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixture710290134cda968.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixturee7c0f233bd1b650.jpg"
+          },
+          {
+            "type": "Image",
+            "url": "https://pic1.zhimg.com/fixturebaec2999047a345.jpg"
+          }
+        ]
+      },
+      "downloads": [
+        "https://pic1.zhimg.com/fixture5698f60036b3c4f.jpg",
+        "https://pic1.zhimg.com/fixture9c5594f51369c6d.jpg",
+        "https://pic1.zhimg.com/fixtureb229ed3685925ee.jpg",
+        "https://pic1.zhimg.com/fixture9c08a8502c93b7d.jpg",
+        "https://pic1.zhimg.com/fixture82c074806cb683b.jpg",
+        "https://pic1.zhimg.com/fixturee94c9aec6fcdd70.jpg",
+        "https://pic1.zhimg.com/fixtureda0a5766b601bcd.jpg",
+        "https://pic1.zhimg.com/fixturef31c87de33c6cc5.jpg",
+        "https://pic1.zhimg.com/fixture2d0c13f8b2bb57f.jpg"
+      ]
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}

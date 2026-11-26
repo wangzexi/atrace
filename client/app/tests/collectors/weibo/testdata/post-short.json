@@ -1,0 +1,55 @@
+{
+  "kind": "post",
+  "input": {
+    "status": {
+      "created_at": "Wed Nov 11 17:19:27 +0800 2026",
+      "id": 9695509261184516,
+      "idstr": "9695509261184515",
+      "mblogid": "fixturee96e",
+      "user": {
+        "id": 1000000001,
+        "idstr": "1000000001",
+        "screen_name": "示例文本示例文本示"
+      },
+      "source": "示例文本示例文本示",
+      "pic_num": 0,
+      "fixturef0303e74ba": false,
+      "fixture622cb90eef": false,
+      "fixturea4a41b3d8": false,
+      "text": "示例文 示例文 示.示 示例文本示例文本示例文本示例文本、示例文本示例文本示、示例文本示例、示例文本示例文本示例文本示。 ​​​",
+      "text_raw": "示例文 示例文 示.示 示例文本示例文本示例文本示例文本、示例文本示例文本示、示例文本示例、示例文本示例文本示例文本示。 ​​​"
+    }
+  },
+  "expected": [
+    {
+      "role": "author",
+      "document": {
+        "type": "Person",
+        "id": "weibo:user:1000000001",
+        "url": "https://weibo.com/u/1000000001",
+        "name": "示例文本示例文本示"
+      }
+    },
+    {
+      "role": "post",
+      "document": {
+        "type": "Note",
+        "id": "weibo:post:9695509261184515",
+        "attributedTo": "weibo:user:1000000001",
+        "content": "示例文 示例文 示.示 示例文本示例文本示例文本示例文本、示例文本示例文本示、示例文本示例、示例文本示例文本示例文本示。 ​​​",
+        "url": "https://weibo.com/1000000001/fixturee96e",
+        "published": "2026-11-11T09:19:27.000Z"
+      }
+    },
+    {
+      "role": "create",
+      "document": {
+        "type": "Create",
+        "actor": "weibo:user:1000000001",
+        "object": "weibo:post:9695509261184515",
+        "published": "2026-11-11T09:19:27.000Z"
+      }
+    }
+  ],
+  "note": "Synthetic fixture; no real account, post, activity or media data."
+}
