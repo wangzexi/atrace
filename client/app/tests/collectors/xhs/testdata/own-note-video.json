@@ -65,6 +65,11 @@
         {
           "url": "https://sns-webpic-qc.xhscdn.com/fixture5139caf5617e32c",
           "source": "https://sns-webpic-qc.xhscdn.com/979597727776/f92433dac9cac6c76f5a738f5420da11/fixture5139caf5617e32c"
+        },
+        {
+          "url": "https://sns-video-qc.xhscdn.com/stream/1/110/259/abc.mp4",
+          "source": "https://sns-video-qc.xhscdn.com/stream/1/110/259/abc.mp4?sign=fixture",
+          "type": "Video"
         }
       ]
     },

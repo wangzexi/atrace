@@ -135,8 +135,20 @@ function personDocument(id, name) {
   };
 }
 
+// Codec group names change; use a complete MP4 stream rather than a video-only fragment.
+function videoOf(note) {
+  const source = Object.values(note.video?.media?.stream || {}).flatMap(value => Array.isArray(value) ? value : [])
+    .filter(item => typeof item?.masterUrl === "string" && /^https?:/.test(item.masterUrl) && (!item.format || item.format === "mp4"))
+    .sort((a, b) => (b.width || 0) * (b.height || 0) - (a.width || 0) * (a.height || 0) ||
+      Number(!!(b.audioCodec || b.audioChannels)) - Number(!!(a.audioCodec || a.audioChannels)))[0]?.masterUrl;
+  if (!source) return "";
+  const url = new URL(source);
+  url.protocol = "https:";
+  return url.href;
+}
+
 // The user's own note and its Create. note is what the detail page shows, card
-// the profile card it was found by. downloads lists the images to fetch: the
+// the profile card it was found by. downloads lists the media to fetch: the
 // stable address and the signed one to fetch it from.
 function ownNoteDocuments(card, note, meId) {
   const meRef = `xiaohongshu:user:${meId}`;
@@ -154,6 +166,7 @@ function ownNoteDocuments(card, note, meId) {
     // The video address is signed too; the document keeps it without the query.
     const video = new URL(note.video);
     attachment.push({ type: "Video", url: video.origin + video.pathname });
+    downloads.push({ url: video.origin + video.pathname, source: video.href, type: "Video" });
   }
   const published = note.time ? new Date(note.time).toISOString() : card.time ? new Date(card.time).toISOString() : undefined;
   const updated = note.updated && note.updated !== note.time ? new Date(note.updated).toISOString() : undefined;
@@ -482,32 +495,37 @@ async function ingestDocument(document, raw) {
 
 const downloaded = new Set();
 
-// Register a local copy of an image under url, downloading it from source (the
+// Register a local copy of media under url, downloading it from source (the
 // URL it was seen at, which may carry a signature that url leaves out).
-async function ensureLocalImage(url, source = url) {
+async function ensureLocalMedia(url, source = url, type = "Image") {
   if (downloaded.has(url)) return;
   const known = await atraceFetch(`${ATRACE_API}/collect/media?url=${encodeURIComponent(url)}`);
   if (!known.ok) {
     await pause(randomDelay(2_000, 4_000));
-    const response = await fetch(source, { headers: { Referer: "https://www.xiaohongshu.com/" }, signal: AbortSignal.timeout(30_000) });
-    if (!response.ok) throw new Error(`image download failed: HTTP ${response.status} ${source}`);
-    const mime = response.headers.get("content-type")?.split(";")[0] || "";
-    if (!mime.startsWith("image/")) throw new Error(`unexpected image MIME ${mime}: ${source}`);
+    const response = await fetch(source, { headers: { Referer: "https://www.xiaohongshu.com/" }, signal: AbortSignal.timeout(type === "Video" ? 120_000 : 30_000) });
+    if (!response.ok) throw new Error(`media download failed: HTTP ${response.status} ${source}`);
+    let mime = response.headers.get("content-type")?.split(";")[0] || "";
+    const bytes = await response.arrayBuffer();
+    if (type === "Video" && !mime.startsWith("video/")) {
+      const header = new Uint8Array(bytes);
+      if (header.length >= 12 && String.fromCharCode(...header.slice(4, 8)) === "ftyp") mime = "video/mp4";
+    }
+    if (!mime.startsWith(type === "Video" ? "video/" : "image/")) throw new Error(`unexpected ${type} MIME ${mime}: ${source}`);
     const uploaded = await atraceFetch(`${ATRACE_API}/collect/media?url=${encodeURIComponent(url)}`, {
       method: "PUT",
       headers: { "Content-Type": mime },
-      body: await response.arrayBuffer(),
+      body: bytes,
     });
     if (!uploaded.ok) throw new Error(`atrace /collect/media: HTTP ${uploaded.status}: ${(await uploaded.text()).slice(0, 300)}`);
   }
   downloaded.add(url);
 }
 
-// Store the entries in order, fetching each entry's images first; rawByRole
+// Store the entries in order, fetching each entry's media first; rawByRole
 // gives the raw response each role keeps.
 async function storeEntries(entries, rawByRole) {
   for (const entry of entries) {
-    for (const { url, source } of entry.downloads || []) await ensureLocalImage(url, source);
+    for (const { url, source, type } of entry.downloads || []) await ensureLocalMedia(url, source, type);
   }
   for (const entry of entries) await ingest(entry.document, rawByRole[entry.role]);
 }
@@ -606,8 +624,8 @@ const detailExpression = id => `
   const map = unwrap(window.__INITIAL_STATE__?.note?.noteDetailMap) || {};
   const note = unwrap(unwrap(map[${JSON.stringify(id)}])?.note) || {};
   const clean = el => (el?.textContent || "").replace(/\\s+/g, " ").trim();
-  const streams = [...((note.video?.media?.stream?.h264) || []), ...((note.video?.media?.stream?.h265) || [])]
-    .filter(item => item?.masterUrl).sort((a, b) => (b.width * b.height) - (a.width * a.height));
+  ${videoOf.toString()}
+  const video = videoOf(note);
   // The emoji in a comment are pictures; their names are in the page's state, so a picture reads as its [name].
   const emojiNames = new Map();
   for (const [name, url] of Object.entries(unwrap(unwrap(window.__INITIAL_STATE__?.emojiData)?.emojiParseMap) || {})) {
@@ -658,7 +676,7 @@ const detailExpression = id => `
       ipLocation: note.ipLocation || "",
       tags: (note.tagList || []).map(tag => tag?.name || "").filter(Boolean),
       images: (note.imageList || []).map(image => image?.urlDefault || image?.urlPre || (image?.infoList || [])[0]?.url || "").filter(Boolean),
-      video: streams[0]?.masterUrl || "",
+      video,
       interact: note.interactInfo || {},
     },
     comments,

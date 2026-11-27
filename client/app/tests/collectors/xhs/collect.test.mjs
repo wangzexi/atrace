@@ -9,7 +9,7 @@ import { contractProblems, loadConversion } from "../testlib.mjs";
 
 const here = new URL(".", import.meta.url).pathname;
 const NAMES = [
-  "ownNoteDocuments", "reactionDocuments", "likeDocument", "addDocument", "commentDocuments", "stableImageUrl", "imageOf", "commentTimes", "timeOfComment", "timeOfDateText", "threadTargets", "noteIdOf",
+  "ownNoteDocuments", "reactionDocuments", "likeDocument", "addDocument", "commentDocuments", "stableImageUrl", "imageOf", "commentTimes", "timeOfComment", "timeOfDateText", "threadTargets", "noteIdOf", "videoOf",
 ];
 const conversionOf = dir => loadConversion(`${here}../../../../cli/collector-examples/${dir}/index.mjs`, NAMES);
 const c = conversionOf("xiaohongshu");
@@ -179,4 +179,16 @@ test("xiaohongshu: whoever wrote a post made it", () => {
 test("the note to read again is named by the target the device gives, and by nothing else", () => {
   assert.equal(c.noteIdOf("xiaohongshu:note:65f0c9b1000000001a01b2c3"), "65f0c9b1000000001a01b2c3");
   for (const bad of ["", "x:post:123", "xiaohongshu:note:", "xiaohongshu:note:abc", "xiaohongshu:note:65f0c9b1000000001a01b2c3/../4", "xiaohongshu:user:65f0c9b1000000001a01b2c3", "xiaohongshu:collection:favorites"]) assert.equal(c.noteIdOf(bad), "");
+});
+
+test("renamed codec groups choose a standalone MP4 with audio instead of fMP4 video-only streams", () => {
+  for (const dir of ["xiaohongshu", "xiaohongshu-user"]) {
+    const c = conversionOf(dir);
+    assert.equal(c.videoOf({ video: { media: { stream: {
+      EF5: [{ masterUrl: "https://video.example/video-only.mp4", format: "fmp4", width: 1920, height: 1080 }],
+      EF4: [{ masterUrl: "http://video.example/complete.mp4", format: "mp4", width: 1280, height: 720, audioCodec: "aac" }],
+    } } } }), "https://video.example/complete.mp4");
+    assert.equal(c.videoOf({ video: { media: { stream: { h264: [{ masterUrl: "https://video.example/legacy.mp4", width: 640, height: 360 }] } } } }), "https://video.example/legacy.mp4");
+    assert.equal(c.videoOf({}), "");
+  }
 });
