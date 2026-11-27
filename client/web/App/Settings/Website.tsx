@@ -1,12 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 
 export default function Website({
   title,
   onTitle,
+  footer,
+  onFooter,
   onLogin,
 }: {
   title: string
   onTitle: (title: string) => void
+  footer: string | undefined
+  onFooter: (footer: string) => void
   onLogin: () => void
 }) {
   const [draft, setDraft] = useState<string | null>(null)
@@ -76,11 +80,85 @@ export default function Website({
           />
         </label>
       </div>
+      <FooterSettings footer={footer} onSave={onFooter} onLogin={onLogin} />
       {status && (
         <div className="toast toast--notice" role="status">
           {status}
         </div>
       )}
     </>
+  )
+}
+
+function FooterSettings({
+  footer,
+  onSave,
+  onLogin,
+}: {
+  footer: string | undefined
+  onSave: (footer: string) => void
+  onLogin: () => void
+}) {
+  const [draft, setDraft] = useState<string>()
+  const [message, setMessage] = useState('')
+  const [busy, setBusy] = useState(false)
+  const value = draft ?? footer ?? ''
+  const disabled = busy || footer === undefined
+
+  async function save(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setBusy(true)
+    setMessage('')
+    try {
+      const response = await fetch('/admin/settings/footer', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html: value }),
+      })
+      if (response.status === 401) {
+        onLogin()
+        return
+      }
+      if (!response.ok) {
+        setMessage(response.status === 400 ? (await response.text()).trim() : '保存失败，请重试。')
+        return
+      }
+      const saved: { html: string } = await response.json()
+      onSave(saved.html)
+      setDraft(undefined)
+      setMessage('页脚已保存')
+    } catch {
+      setMessage('保存失败，请重试。')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="settings-section">
+      <h2>首页页脚</h2>
+      <form className="site-footer-fields" onSubmit={(event) => void save(event)}>
+        <div className="field">
+          <label htmlFor="site-footer-html">页脚 HTML</label>
+          <textarea
+            id="site-footer-html"
+            value={value}
+            placeholder="留空则隐藏页脚"
+            rows={4}
+            maxLength={4096}
+            disabled={disabled}
+            onChange={(event) => setDraft(event.target.value)}
+          />
+        </div>
+        <button className="account-button" type="submit" disabled={disabled || draft === undefined}>
+          保存页脚
+        </button>
+        {message && (
+          <p className="settings-note" role="status">
+            {message}
+          </p>
+        )}
+      </form>
+    </div>
   )
 }

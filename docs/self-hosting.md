@@ -29,6 +29,8 @@ bun scripts/import-demo.mjs
 
 备份时保留档案数据库和媒体目录。停止服务用 `kill "$atrace_pid"`。
 
+首页页脚默认隐藏。主人可以在「设置 → 网站」填写页脚 HTML，例如 `<a href="https://example.org">站点信息</a>`。支持文本、链接和简单格式。清空并保存即可隐藏。
+
 ## 采集器
 
 采集器用 `ATRACE_COLLECT_TOKEN` 提交数据。浏览器采集示例依赖已安装的 Ego Browser 和你自己的已登录会话，可用 `ATRACE_EGO` 指定可执行文件。采集器目录和提交协议见[采集器说明](../client/cli/collector-examples/AGENTS.md)。

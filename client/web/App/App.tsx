@@ -10,6 +10,7 @@ export default function App() {
   const [path, setPath] = useState(() => location.pathname)
   const [owner, setOwner] = useState(false)
   const [title, setTitle] = useState(document.title)
+  const [footer, setFooter] = useState<string>()
   const [sessionVersion, setSessionVersion] = useState(0)
   const titleClicks = useRef({ count: 0, at: 0 })
   const onLogin = path === '/login'
@@ -54,9 +55,10 @@ export default function App() {
     void fetch('/api/site')
       .then(async (response) => {
         if (!response.ok || !current) return
-        const site: { title: string; owner: boolean } = await response.json()
+        const site: { title: string; owner: boolean; footer?: string } = await response.json()
         if (!current) return
         setTitle(site.title)
+        setFooter(site.footer ?? '')
         if (site.owner) setOwner(true)
       })
       .catch(() => {})
@@ -93,6 +95,9 @@ export default function App() {
           onBack={back}
           onTitleClick={titleClick}
         />
+        {path === '/' && footer && (
+          <footer className="site-footer" dangerouslySetInnerHTML={{ __html: footer }} />
+        )}
         {!active && (
           <>
             {onLogin && (
@@ -115,6 +120,8 @@ export default function App() {
                 onBack={back}
                 title={title}
                 onTitle={setTitle}
+                footer={footer}
+                onFooter={setFooter}
                 onOwner={markOwner}
                 onLogin={() => navigate('/login', true)}
               />

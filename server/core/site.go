@@ -23,6 +23,21 @@ func (s *Store) SetSiteTitle(ctx context.Context, title string) error {
 	return err
 }
 
+func (s *Store) SiteFooter(ctx context.Context) (string, error) {
+	var footer string
+	err := s.reads.QueryRowContext(ctx, `SELECT html FROM site_footer WHERE id=1`).Scan(&footer)
+	if errors.Is(err, sql.ErrNoRows) {
+		err = nil
+	}
+	return footer, err
+}
+
+func (s *Store) SetSiteFooter(ctx context.Context, footer string) error {
+	_, err := s.db.ExecContext(ctx, `INSERT INTO site_footer (id,html) VALUES (1,?)
+		ON CONFLICT(id) DO UPDATE SET html=excluded.html`, footer)
+	return err
+}
+
 // SetOwner makes the person the one the owner is: the timeline they open on is what that person's accounts did, and
 // their name is the one on those accounts. It is sql.ErrNoRows for a person there is not.
 func (s *Store) SetOwner(ctx context.Context, id int64) error {

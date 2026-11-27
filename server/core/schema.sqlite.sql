@@ -130,6 +130,11 @@ CREATE TABLE IF NOT EXISTS site (
   owner INTEGER REFERENCES person (id)
 );
 
+CREATE TABLE IF NOT EXISTS site_footer (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  html TEXT NOT NULL
+);
+
 -- The owner's login, one row: the salt and verifier of the password, and the key the login cookies are signed with.
 CREATE TABLE IF NOT EXISTS owner_login (
   id INTEGER PRIMARY KEY CHECK (id = 1),

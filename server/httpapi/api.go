@@ -44,6 +44,7 @@ func RegisterRoutes(m *http.ServeMux, store *core.Store, hub *Hub, site Site) {
 	m.HandleFunc("GET /api/site", a.siteInfo)
 	// The owner's management is all under /admin/, and only the owner may use any of it.
 	m.HandleFunc("PUT /admin/settings", a.setSiteTitle)
+	m.HandleFunc("PUT /admin/settings/footer", a.setSiteFooter)
 	m.HandleFunc("PUT /admin/owner", a.setOwner)
 	m.HandleFunc("GET /admin/devices", a.listDevices)
 	m.HandleFunc("GET /admin/people", a.listPeople)

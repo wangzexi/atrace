@@ -11,7 +11,7 @@ test('设置菜单进入子页面，支持返回、刷新和清空未提交密�
   await expect(page.getByLabel('当前密码', { exact: true })).toHaveCount(0)
   await expect(page.getByLabel('网站标题', { exact: true })).toHaveCount(0)
   await page.screenshot({ path: '/tmp/atrace-settings-menu.png' })
-  await menu.getByRole('link', { name: '网站 网站标题' }).click()
+  await menu.getByRole('link', { name: '网站 标题和页脚' }).click()
   await expect(page).toHaveURL('/settings/site/')
   await expect(page.getByRole('heading', { name: '网站', exact: true })).toBeVisible()
   await expect(page.getByLabel('网站标题', { exact: true })).toBeVisible()

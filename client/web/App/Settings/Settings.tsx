@@ -6,7 +6,7 @@ import Password from './Password'
 import Website from './Website'
 
 const pages = [
-  { path: '/settings/site/', title: '网站', description: '网站标题', icon: Globe },
+  { path: '/settings/site/', title: '网站', description: '标题和页脚', icon: Globe },
   { path: '/settings/people/', title: '人物', description: '平台账号归属与人物顺序', icon: Users },
   { path: '/settings/devices/', title: '设备', description: '在线设备与采集状态', icon: Laptop },
   {
@@ -21,6 +21,8 @@ export default function Settings({
   path,
   title,
   onTitle,
+  footer,
+  onFooter,
   onOwner,
   onLogin,
   onNavigate,
@@ -29,6 +31,8 @@ export default function Settings({
   path: string
   title: string
   onTitle: (title: string) => void
+  footer: string | undefined
+  onFooter: (footer: string) => void
   onOwner: () => void
   onLogin: () => void
   onNavigate: (path: string) => void
@@ -76,7 +80,13 @@ export default function Settings({
         ) : (
           <div key={path}>
             {path === '/settings/site/' && (
-              <Website title={title} onTitle={onTitle} onLogin={onLogin} />
+              <Website
+                title={title}
+                onTitle={onTitle}
+                footer={footer}
+                onFooter={onFooter}
+                onLogin={onLogin}
+              />
             )}
             {path === '/settings/people/' && <People onLogin={onLogin} onOwner={onOwner} />}
             {path === '/settings/devices/' && <Devices onLogin={onLogin} />}
