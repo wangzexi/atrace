@@ -52,7 +52,7 @@ func (a *API) putMedia(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.ContentLength > maxFileBody {
-		writeJSON(w, 413, errorBody("too_large", "file exceeds 128 MiB"))
+		writeJSON(w, 413, errorBody("too_large", "file exceeds 1 GiB"))
 		return
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, maxFileBody)
@@ -60,7 +60,7 @@ func (a *API) putMedia(w http.ResponseWriter, r *http.Request) {
 	if e != nil {
 		var maxErr *http.MaxBytesError
 		if errors.As(e, &maxErr) {
-			writeJSON(w, 413, errorBody("too_large", "file exceeds 128 MiB"))
+			writeJSON(w, 413, errorBody("too_large", "file exceeds 1 GiB"))
 			return
 		}
 		writeError(w, e)

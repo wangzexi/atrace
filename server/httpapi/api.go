@@ -15,7 +15,7 @@ import (
 )
 
 const maxJSONBody = 2 << 20
-const maxFileBody = 128 << 20
+const maxFileBody = 1 << 30
 
 type API struct {
 	store   *core.Store

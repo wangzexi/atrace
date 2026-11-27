@@ -5,7 +5,9 @@ package httpapi_test
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 
@@ -107,5 +109,56 @@ func TestMediaRequiresVisibleEntryForVisitors(t *testing.T) {
 			t.Fatal(err)
 		}
 		get(false, 404)
+	}
+}
+
+type zeroVideoReader struct{}
+
+func (zeroVideoReader) Read(p []byte) (int, error) { clear(p); return len(p), nil }
+
+func TestLargeVideoUploadAndRange(t *testing.T) {
+	srv := server(t)
+	const size = 129 << 20
+	header := string([]byte{0, 0, 0, 32}) + "ftypisom" + strings.Repeat("\x00", 20)
+	body := io.MultiReader(strings.NewReader(header), io.LimitReader(zeroVideoReader{}, size-int64(len(header))))
+	req, err := http.NewRequest("PUT", srv.URL+"/collect/media?url=https://example.test/large.mp4", body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.ContentLength = size
+	req.Header.Set("Content-Type", "video/mp4")
+	response, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var stored struct {
+		Ref string `json:"ref"`
+	}
+	err = json.NewDecoder(response.Body).Decode(&stored)
+	response.Body.Close()
+	if err != nil || response.StatusCode >= 300 || stored.Ref == "" {
+		t.Fatalf("upload: %d %v", response.StatusCode, err)
+	}
+	req, _ = http.NewRequest("GET", srv.URL+"/files/"+stored.Ref, nil)
+	req.Header.Set("Range", "bytes=0-11")
+	response, err = http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer response.Body.Close()
+	clip, err := io.ReadAll(response.Body)
+	if err != nil || response.StatusCode != 206 || string(clip) != header[:12] {
+		t.Fatalf("range: %d %q %v", response.StatusCode, clip, err)
+	}
+}
+
+func TestVideoUploadRejectsDeclaredSizeOverLimit(t *testing.T) {
+	srv := server(t)
+	req := httptest.NewRequest("PUT", "/collect/media?url=https://example.test/too-large.mp4", nil)
+	req.ContentLength = (1 << 30) + 1
+	response := httptest.NewRecorder()
+	srv.Config.Handler.ServeHTTP(response, req)
+	if response.Code != 413 {
+		t.Fatalf("status = %d", response.Code)
 	}
 }

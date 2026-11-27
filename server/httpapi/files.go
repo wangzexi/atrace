@@ -37,8 +37,14 @@ func (a *API) getFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer f.Close()
-	body, e := io.ReadAll(f)
-	if e != nil {
+	body := make([]byte, 1024)
+	n, e := f.Read(body)
+	if e != nil && e != io.EOF {
+		writeError(w, e)
+		return
+	}
+	body = body[:n]
+	if _, e := f.Seek(0, io.SeekStart); e != nil {
 		writeError(w, e)
 		return
 	}
@@ -47,7 +53,7 @@ func (a *API) getFile(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", contentType(body))
 	// A file is data: an SVG opened on its own address must not run its scripts here.
 	w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")
-	http.ServeContent(w, r, "file", time.Time{}, bytes.NewReader(body))
+	http.ServeContent(w, r, "file", time.Time{}, f)
 }
 
 // contentType identifies formats Go does not sniff, including SVG and QuickTime.

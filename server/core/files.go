@@ -58,7 +58,7 @@ func (s *Store) PutFile(ctx context.Context, body io.Reader, sourceURL, mime str
 }
 
 // OpenFile returns the content of a stored file.
-func (s *Store) OpenFile(ref string) (io.ReadCloser, error) {
+func (s *Store) OpenFile(ref string) (*os.File, error) {
 	if !validFileRef(ref) {
 		return nil, os.ErrNotExist
 	}

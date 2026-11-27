@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"html"
-	"io"
 	"io/fs"
 	"log"
 	"mime"
@@ -30,7 +29,7 @@ type FeedQuery interface {
 	ArchiveAttachmentPaths(context.Context, string) ([]string, error)
 	ArchiveAttachmentText(context.Context, string, string) (string, error)
 	LatestRaw(context.Context, string) (json.RawMessage, error)
-	OpenFile(string) (io.ReadCloser, error)
+	OpenFile(string) (*os.File, error)
 	SiteTitle(context.Context, string) (string, error)
 	TimelinePage(context.Context, int64, []string, int, bool, string, bool, core.PageRange) ([]core.Item, error)
 	TimelineItem(context.Context, string, bool) (core.Item, error)
