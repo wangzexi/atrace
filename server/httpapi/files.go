@@ -61,6 +61,9 @@ func contentType(body []byte) string {
 	if len(body) >= 12 && string(body[4:8]) == "ftyp" && string(body[8:12]) == "qt  " {
 		return "video/quicktime"
 	}
+	if len(body) >= 16 && string(body[4:8]) == "wide" && string(body[12:16]) == "mdat" {
+		return "video/quicktime"
+	}
 	kind := http.DetectContentType(body)
 	if strings.HasPrefix(kind, "text/") && bytes.Contains(body[:min(len(body), 1024)], []byte("<svg")) {
 		return "image/svg+xml"

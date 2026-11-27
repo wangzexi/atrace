@@ -199,6 +199,8 @@ test("Live Photos retain still-motion pairs and use signed download sources", ()
   assert.deepEqual(live.livePhotosOf(status), []);
   const bytes = Uint8Array.from([0, 0, 0, 20, ...Buffer.from('ftypqt  ')]).buffer;
   assert.equal(live.motionMime(bytes), "video/quicktime");
+  const legacy = Uint8Array.from(Buffer.from("0000000877696465000000206d646174", "hex")).buffer;
+  assert.equal(live.motionMime(legacy), "video/quicktime");
   assert.equal(live.motionMime(Uint8Array.from(Buffer.from('<html>access denied')).buffer), "");
 });
 

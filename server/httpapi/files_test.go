@@ -162,3 +162,25 @@ func TestVideoUploadRejectsDeclaredSizeOverLimit(t *testing.T) {
 		t.Fatalf("status = %d", response.Code)
 	}
 }
+
+func TestLegacyQuickTimeRange(t *testing.T) {
+	srv := server(t)
+	motion := string([]byte{0, 0, 0, 8}) + "wide" + string([]byte{0, 0, 0, 32}) + "mdat" + strings.Repeat("\x00", 24)
+	_, body := do(t, "PUT", srv.URL+"/collect/media?url=https://us.sinaimg.cn/legacy.mov", motion)
+	var stored struct {
+		Ref string `json:"ref"`
+	}
+	if err := json.Unmarshal([]byte(body), &stored); err != nil {
+		t.Fatal(err)
+	}
+	req, _ := http.NewRequest("GET", srv.URL+"/files/"+stored.Ref, nil)
+	req.Header.Set("Range", "bytes=0-15")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 206 || resp.Header.Get("Content-Type") != "video/quicktime" {
+		t.Fatalf("response %d %s", resp.StatusCode, resp.Header.Get("Content-Type"))
+	}
+}

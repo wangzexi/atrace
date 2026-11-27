@@ -219,6 +219,7 @@ function motionMime(bytes) {
   const data = new Uint8Array(bytes);
   if (data.length < 12) return "";
   const word = offset => String.fromCharCode(...data.slice(offset, offset + 4));
+  if (data.length >= 16 && word(4) === "wide" && word(12) === "mdat") return "video/quicktime";
   if (word(4) !== "ftyp") return "";
   return word(8) === "qt  " ? "video/quicktime" : "video/mp4";
 }
