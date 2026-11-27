@@ -201,3 +201,15 @@ test("Live Photos retain still-motion pairs and use signed download sources", ()
   assert.equal(live.motionMime(bytes), "video/quicktime");
   assert.equal(live.motionMime(Uint8Array.from(Buffer.from('<html>access denied')).buffer), "");
 });
+
+test("both Weibo collectors keep legacy Sina video URLs and reject lookalike domains", () => {
+  for (const dir of ["weibo", "weibo-user"]) {
+    const conv = conversionOf(dir);
+    for (const [host, accepted] of [["f.us.sinaimg.cn", true], ["f.us.sinaimg.cn.example.com", false]]) {
+      const status = { idstr: "123456789", text_raw: "A video", user: { idstr: "1000000001", screen_name: "Fixture" }, page_info: { media_info: { stream_url: `https://${host}/legacy.mp4?Expires=123` } } };
+      const post = conv.postDocuments(status, "A video").find(entry => entry.role === "post").document;
+      assert.equal((post.attachment || []).some(item => item.type === "Video"), accepted);
+      if (accepted) assert.equal(post.attachment[0].url, "https://f.us.sinaimg.cn/legacy.mp4");
+    }
+  }
+});

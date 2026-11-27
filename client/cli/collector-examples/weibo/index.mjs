@@ -183,7 +183,7 @@ function videoOf(status) {
   if (!source) return null;
   let url;
   try { url = new URL(source); } catch { return null; }
-  if (!["http:", "https:"].includes(url.protocol) || !url.hostname.endsWith(".weibocdn.com") || !url.pathname.endsWith(".mp4")) return null;
+  if (!["http:", "https:"].includes(url.protocol) || (!url.hostname.endsWith(".weibocdn.com") && url.hostname !== "f.us.sinaimg.cn") || !url.pathname.endsWith(".mp4")) return null;
   url.protocol = "https:";
   const download = url.href;
   url.search = "";
@@ -548,9 +548,9 @@ async function ensureLocalMedia(url, source = url, type = "Image", livePhoto = f
     if (!response.ok) throw new Error(`media download failed: HTTP ${response.status} ${url}`);
     let mime = response.headers.get("content-type")?.split(";")[0] || "";
     const bytes = await response.arrayBuffer();
-    if (livePhoto) {
+    if (livePhoto || (type === "Video" && !mime.startsWith("video/"))) {
       mime = motionMime(bytes);
-      if (!mime) throw new Error(`not a Live Photo motion clip: ${url}`);
+      if (!mime) throw new Error(`not a valid video clip: ${url}`);
     }
     if (!mime.startsWith(type === "Video" ? "video/" : "image/")) throw new Error(`unexpected ${type} MIME ${mime}: ${url}`);
     const problem = type === "Image" ? imageTypeProblem(url, mime) : "";
